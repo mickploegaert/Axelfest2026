@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="absolute top-0 left-0 right-0 z-50 bg-linear-to-b from-black/50 to-transparent">
+      <nav className="absolute top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/50 to-transparent">
         <div className="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-20 sm:h-24 md:h-28 relative">
             {/* Logo + Datum/Locatie - Links */}

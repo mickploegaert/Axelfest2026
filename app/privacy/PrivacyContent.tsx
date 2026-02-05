@@ -178,7 +178,7 @@ Controleer deze pagina regelmatig voor de meest actuele informatie.
   ];
 
   return (
-    <section ref={containerRef} className="relative min-h-screen py-24 sm:py-32">
+    <section ref={containerRef} className="relative min-h-screen min-h-[100dvh] py-24 sm:py-32">
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image

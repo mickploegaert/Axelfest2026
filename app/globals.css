@@ -42,10 +42,6 @@ video::-webkit-media-controls {
   z-index: 2147483647 !important;
 }
 
-video {
-  position: relative;
-}
-
 .font-phosphate {
   font-family: 'Impact', 'Arial Black', sans-serif;
   font-weight: 900;
@@ -148,9 +144,11 @@ video {
 }
 
 /* Cross-browser optimalisaties */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 /* Verbeter scroll performance */
@@ -159,14 +157,17 @@ html {
 }
 
 /* Voorkom layout shifts en glitches */
-img, video {
-  max-width: 100%;
-  height: auto;
+@layer base {
+  img, video {
+    max-width: 100%;
+  }
 }
 
 /* Fix Safari flexbox bugs */
-.flex {
-  min-width: 0;
+@layer base {
+  .flex {
+    min-width: 0;
+  }
 }
 
 /* Smooth GPU accelerated animations */
@@ -192,10 +193,12 @@ svg {
 }
 
 /* Verbeter video rendering cross-browser */
-video {
-  object-fit: cover;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+@layer base {
+  video {
+    object-fit: cover;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
 }
 
 /* Mobile viewport body scroll lock helper */

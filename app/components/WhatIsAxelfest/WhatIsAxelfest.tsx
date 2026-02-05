@@ -103,7 +103,7 @@ export default function WhatIsAxelfest() {
       />
 
       {/* Main Content - sticky */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 h-screen h-[100dvh] overflow-hidden">
         {/* Background Image - Full screen, always visible */}
         <Image
           src="/BackgroundMain/Background.jpg"

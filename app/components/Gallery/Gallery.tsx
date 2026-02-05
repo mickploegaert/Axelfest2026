@@ -117,7 +117,7 @@ export default function Gallery() {
       {/* Slideshow container met waves er overheen */}
       <div className="relative">
         {/* Fullscreen Slideshow - grotere sectie voor betere foto zichtbaarheid */}
-        <div className="relative h-[70vh] sm:h-[80vh] md:h-[85vh] lg:h-[90vh] overflow-hidden">
+        <div className="relative h-[70dvh] sm:h-[80dvh] md:h-[85dvh] lg:h-[90dvh] overflow-hidden">
           {/* Photos with Ken Burns Effect - crossfade */}
           <AnimatePresence mode="sync" initial={false}>
             <motion.div

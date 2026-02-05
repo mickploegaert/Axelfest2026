@@ -138,7 +138,7 @@ export default function Contact() {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-screen py-20 sm:py-32 md:py-48 lg:py-64"
+      className="relative min-h-screen min-h-[100dvh] py-20 sm:py-32 md:py-48 lg:py-64"
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">

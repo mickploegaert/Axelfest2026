@@ -67,7 +67,7 @@ const itemVariants = {
 
 export default function SponsorsPage() {
   return (
-    <section className="relative min-h-screen">
+    <section className="relative min-h-screen min-h-[100dvh]">
       {/* Background Image */}
       <div className="fixed inset-0 z-0">
         <Image
@@ -152,7 +152,7 @@ export default function SponsorsPage() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="max-w-4xl mx-auto"
           >
-            <div className="bg-linear-to-br from-white/15 to-white/5 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-white/30">
+            <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-white/30">
               <div className="text-center">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tight font-phosphate mb-6">
                   WIL JIJ OOK SPONSOR WORDEN?
