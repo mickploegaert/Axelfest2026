@@ -11,10 +11,17 @@ export default function ReCaptchaWrapper({ children }: ReCaptchaWrapperProps) {
   return (
     <GoogleReCaptchaProvider
       reCaptchaKey="6LdbnmAsAAAAAOtdNKTyJnx0t64CAGDMUsds7nJw"
+      useEnterprise={false}
       scriptProps={{
         async: true,
         defer: true,
         appendTo: 'head',
+      }}
+      container={{
+        parameters: {
+          badge: 'bottomright',
+          theme: 'dark',
+        }
       }}
     >
       {children}
