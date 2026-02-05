@@ -61,11 +61,11 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative h-screen min-h-[100dvh] flex items-center justify-center overflow-hidden">
       {/* Background Video - works on all devices */}
       <video
         ref={videoRef}
-        className="absolute inset-0 w-full h-full min-h-[100dvh] object-cover"
+        className="absolute inset-0 w-full h-full object-cover"
         autoPlay
         muted
         loop
@@ -80,7 +80,7 @@ const Hero = () => {
 
       {/* Background Image - fallback alleen bij error */}
       {videoError && (
-        <div className="absolute inset-0 min-h-[100dvh]">
+        <div className="absolute inset-0">
           <Image
             src="/BackgroundMain/Background.jpg"
             alt="Axelfest achtergrond"
@@ -93,7 +93,7 @@ const Hero = () => {
       )}
       
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-linear-to-b from-black/30 via-transparent to-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80" />
 
       {/* Social Icons - Rechts Midden in Hero */}
       <div className="hidden sm:flex absolute right-3 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-20 flex-col gap-4 sm:gap-6 bg-black/20 backdrop-blur-sm px-2 sm:px-3 py-4 sm:py-6 rounded-full border border-white/20">
