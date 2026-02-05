@@ -118,14 +118,14 @@ export default function Gallery() {
       <div className="relative">
         {/* Fullscreen Slideshow - grotere sectie voor betere foto zichtbaarheid */}
         <div className="relative h-[70vh] sm:h-[80vh] md:h-[85vh] lg:h-[90vh] overflow-hidden">
-          {/* Photos with Ken Burns Effect */}
-          <AnimatePresence mode="wait" initial={false}>
+          {/* Photos with Ken Burns Effect - crossfade */}
+          <AnimatePresence mode="sync" initial={false}>
             <motion.div
               key={currentIndex}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1, ease: 'easeInOut' }}
+              transition={{ duration: 1.5, ease: [0.4, 0, 0.2, 1] }}
               className="absolute inset-0"
             >
               <motion.div
@@ -138,7 +138,7 @@ export default function Gallery() {
                   alt={`Festival foto ${currentIndex + 1}`}
                   fill
                   className="object-cover object-center"
-                  style={{ objectPosition: '50% 35%' }} // Iets hoger voor gezichten
+                  style={{ objectPosition: '50% 35%' }}
                   priority={currentIndex === 0}
                   sizes="100vw"
                 />

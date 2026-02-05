@@ -58,7 +58,7 @@ body {
 }
 
 .animate-scroll {
-  animation: scroll 90s linear infinite;
+  animation: scroll 15s linear infinite;
 }
 
 /* Loading screen animations */
@@ -185,12 +185,32 @@ video {
   transform: translateZ(0);
 }
 
-/* Mobile menu body scroll lock helper */
+/* Mobile viewport body scroll lock helper */
 body.menu-open {
   overflow: hidden;
   position: fixed;
   width: 100%;
   height: 100%;
+}
+
+/* Fix mobile viewport height (address bar issues) */
+@supports (height: 100dvh) {
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+  .h-screen {
+    height: 100dvh;
+  }
+}
+
+/* Fallback voor browsers die dvh niet ondersteunen */
+@supports not (height: 100dvh) {
+  .min-h-screen {
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
+  .h-screen {
+    height: calc(var(--vh, 1vh) * 100);
+  }
 }
 
 /* Accessibility - focus styles */

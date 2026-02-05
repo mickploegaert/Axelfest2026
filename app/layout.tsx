@@ -113,6 +113,24 @@ export default function RootLayout({
         <link rel="preload" href="/Videos/2025aftermovie.mp4" as="video" type="video/mp4" />
         {/* Preload kritieke achtergrond */}
         <link rel="preload" href="/BackgroundMain/Background.jpg" as="image" />
+        {/* Mobile viewport height fix - calculates real viewport height excluding address bar */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function setVH() {
+                  var vh = window.innerHeight * 0.01;
+                  document.documentElement.style.setProperty('--vh', vh + 'px');
+                }
+                setVH();
+                window.addEventListener('resize', setVH);
+                window.addEventListener('orientationchange', function() {
+                  setTimeout(setVH, 100);
+                });
+              })();
+            `,
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${anton.variable} antialiased`}

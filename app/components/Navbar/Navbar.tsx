@@ -90,7 +90,7 @@ const Navbar = () => {
               {/* Hamburger Menu Button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 text-white hover:bg-white/10 rounded-lg transition-all duration-300 relative z-60"
+                className="lg:hidden flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 text-white hover:bg-white/10 rounded-lg transition-all duration-300 relative z-[60]"
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? (
@@ -106,7 +106,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`fixed inset-0 bg-black/98 z-55 transition-all duration-300 lg:hidden ${
+        className={`fixed inset-0 min-h-[100dvh] bg-black/98 z-[55] transition-all duration-300 lg:hidden ${
           isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
         }`}
       >
@@ -122,7 +122,7 @@ const Navbar = () => {
         </div>
 
         {/* Menu content - centered with proper spacing */}
-        <div className="flex flex-col items-center justify-center h-full pt-20 pb-8 px-6 overflow-y-auto">
+        <div className="flex flex-col items-center justify-center h-full min-h-[100dvh] pt-20 pb-8 px-6 overflow-y-auto">
           <nav className="flex flex-col items-center gap-6 sm:gap-8">
             {navItems.map((item, index) => (
               <Link

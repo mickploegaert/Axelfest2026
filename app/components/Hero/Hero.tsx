@@ -39,9 +39,9 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
       {/* Fallback Background Image - altijd zichtbaar tot video laadt */}
-      <div className={`absolute inset-0 transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`absolute inset-0 min-h-[100dvh] transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-0' : 'opacity-100'}`}>
         <Image
           src="/BackgroundMain/Background.jpg"
           alt="Axelfest achtergrond"
@@ -55,7 +55,7 @@ const Hero = () => {
       {/* Background Video - geoptimaliseerd voor sneller laden */}
       <video
         ref={videoRef}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-0 w-full h-full min-h-screen min-h-[100dvh] object-cover transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-100' : 'opacity-0'}`}
         autoPlay
         muted
         loop

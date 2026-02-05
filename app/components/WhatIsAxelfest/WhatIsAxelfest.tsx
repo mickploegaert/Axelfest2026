@@ -4,13 +4,12 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 
-// Nieuwe foto's in masonry/collage stijl
+// 4 foto's in 2x2 layout
 const photos = [
   { src: '/Slideshow/fire.jpg', alt: 'Axelfest vuurshow' },
   { src: '/Slideshow/crew.jpg', alt: 'Festival crew' },
   { src: '/Slideshow/ginandjuice.jpg', alt: 'Axelfest optreden' },
   { src: '/Slideshow/lieszhara.jpg', alt: 'Festival sfeer' },
-  { src: '/Slideshow/guus.jpg', alt: 'Live muziek' },
 ];
 
 export default function WhatIsAxelfest() {
@@ -29,11 +28,8 @@ export default function WhatIsAxelfest() {
   const loadingProgress = useTransform(scrollYProgress, [0.2, 0.35], [0, 1]);
   const loadingBarOpacity = useTransform(scrollYProgress, [0.6, 0.7], [1, 0]);
   
-  // Circle scale (start klein, groeit tot vol scherm)
-  const circleScale = useTransform(scrollYProgress, [0.35, 0.65], [0.5, 1]);
-  
-  // Video opacity
-  const videoOpacity = useTransform(scrollYProgress, [0.2, 0.4], [0, 1]);
+  // Video opacity - fade in tijdens scrollen
+  const videoOpacity = useTransform(scrollYProgress, [0.35, 0.55], [0, 1]);
   
   const [displayedText, setDisplayedText] = useState('');
   const fullText = 'De ultieme festival ervaring in het hart van Zeeland. Waar muziek, cultuur en vriendschap samenkomen op het iconische Hofplein in Axel. Twee dagen vol onvergetelijke momenten, legendarische artiesten en een sfeer die je nergens anders vindt. Dit is meer dan een festival dit is AXELFEST.';
@@ -83,7 +79,7 @@ export default function WhatIsAxelfest() {
     >
       {/* Loading Bar - bovenaan */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 z-100 h-1.5 bg-white"
+        className="fixed top-0 left-0 right-0 z-[100] h-1.5 bg-white"
         style={{
           scaleX: loadingProgress,
           transformOrigin: 'left',
@@ -102,99 +98,33 @@ export default function WhatIsAxelfest() {
           priority
         />
 
-        {/* Photo Grid Container - Masonry/Collage stijl */}
+        {/* Photo Grid Container - 2x2 layout */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={phase >= 1 ? { opacity: 1 } : {}}
           transition={{ duration: 0.5 }}
-          className="absolute inset-0 z-10 p-2 sm:p-3 md:p-4 bg-linear-to-br from-purple-600 via-blue-500 to-cyan-400"
+          className="absolute inset-0 z-10 p-3 sm:p-4 md:p-6 bg-gradient-to-br from-purple-600 via-blue-500 to-cyan-400"
         >
-          {/* Masonry Grid Layout */}
-          <div className="w-full h-full grid grid-cols-3 grid-rows-2 gap-2 sm:gap-3 md:gap-4">
-            {/* Grote foto links */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={phase >= 1 ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 1, delay: 0, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="relative overflow-hidden rounded-lg sm:rounded-xl md:rounded-2xl row-span-2 col-span-1"
-            >
-              <Image
-                src={photos[0].src}
-                alt={photos[0].alt}
-                fill
-                loading="lazy"
-                sizes="33vw"
-                className={`object-cover transition-all duration-1000 ${phase >= 2 ? 'grayscale-0' : 'grayscale'}`}
-              />
-            </motion.div>
-            
-            {/* Kleine foto rechtsboven */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={phase >= 1 ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 1, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="relative overflow-hidden rounded-lg sm:rounded-xl md:rounded-2xl"
-            >
-              <Image
-                src={photos[1].src}
-                alt={photos[1].alt}
-                fill
-                loading="lazy"
-                sizes="33vw"
-                className={`object-cover transition-all duration-1000 ${phase >= 2 ? 'grayscale-0' : 'grayscale'}`}
-              />
-            </motion.div>
-            
-            {/* Kleine foto rechtsboven 2 */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={phase >= 1 ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="relative overflow-hidden rounded-lg sm:rounded-xl md:rounded-2xl"
-            >
-              <Image
-                src={photos[2].src}
-                alt={photos[2].alt}
-                fill
-                loading="lazy"
-                sizes="33vw"
-                className={`object-cover transition-all duration-1000 ${phase >= 2 ? 'grayscale-0' : 'grayscale'}`}
-              />
-            </motion.div>
-            
-            {/* Medium foto onderaan midden */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={phase >= 1 ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 1, delay: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="relative overflow-hidden rounded-lg sm:rounded-xl md:rounded-2xl"
-            >
-              <Image
-                src={photos[3].src}
-                alt={photos[3].alt}
-                fill
-                loading="lazy"
-                sizes="33vw"
-                className={`object-cover transition-all duration-1000 ${phase >= 2 ? 'grayscale-0' : 'grayscale'}`}
-              />
-            </motion.div>
-            
-            {/* Medium foto onderaan rechts */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={phase >= 1 ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 1, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="relative overflow-hidden rounded-lg sm:rounded-xl md:rounded-2xl"
-            >
-              <Image
-                src={photos[4].src}
-                alt={photos[4].alt}
-                fill
-                loading="lazy"
-                sizes="33vw"
-                className={`object-cover transition-all duration-1000 ${phase >= 2 ? 'grayscale-0' : 'grayscale'}`}
-              />
-            </motion.div>
+          {/* 2x2 Grid Layout */}
+          <div className="w-full h-full grid grid-cols-2 grid-rows-2 gap-3 sm:gap-4 md:gap-5">
+            {photos.map((photo, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={phase >= 1 ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 1, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="relative overflow-hidden rounded-lg sm:rounded-xl md:rounded-2xl"
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  loading="lazy"
+                  sizes="50vw"
+                  className={`object-cover transition-all duration-1000 ${phase >= 2 ? 'grayscale-0' : 'grayscale'}`}
+                />
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 
@@ -275,26 +205,27 @@ export default function WhatIsAxelfest() {
           }}
         />
 
-        {/* Video Circle Overlay - komt over alles heen tijdens scrollen */}
-        <div className="absolute inset-0 z-50 flex items-center justify-center overflow-hidden pointer-events-none">
-          <motion.div
-            style={{
-              scale: circleScale,
-              opacity: videoOpacity,
-            }}
-            className="relative w-full h-full pointer-events-auto"
-          >
+        {/* Video Overlay - vult precies de sectie */}
+        <motion.div 
+          className="absolute inset-0 z-[60] flex items-center justify-center bg-black"
+          style={{ opacity: videoOpacity }}
+        >
+          {/* Video container met vaste aspect ratio voor zichtbare controls */}
+          <div className="relative w-full h-full max-h-[calc(100%-60px)] sm:max-h-[calc(100%-48px)] flex items-center justify-center">
             <video
               ref={videoRef}
-              className="absolute inset-0 w-full h-full object-cover bg-black"
+              style={{ pointerEvents: 'all' }}
+              className="w-full h-full max-w-full max-h-full object-contain bg-black cursor-pointer"
               src="/Videos/2025aftermovie.mp4"
               loop
               playsInline
               controls
               controlsList="nodownload"
             />
-          </motion.div>
-        </div>
+          </div>
+          {/* Spacer voor controls zichtbaarheid */}
+          <div className="absolute bottom-0 left-0 right-0 h-[60px] sm:h-[48px] bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+        </motion.div>
 
       </div>
     </section>

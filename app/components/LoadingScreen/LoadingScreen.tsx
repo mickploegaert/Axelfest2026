@@ -90,13 +90,14 @@ const LoadingScreen = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-100 flex items-center justify-center transition-transform duration-1000 ease-in-out ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center transition-transform duration-1000 ease-in-out ${
         shouldSlideUp ? "-translate-y-full" : "translate-y-0"
       }`}
       style={{
         backgroundImage: "url('/BackgroundMain/Background.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        minHeight: "100dvh"
       }}
     >
       {/* Particles */}
@@ -159,7 +160,7 @@ const LoadingScreen = () => {
                   alt=""
                   width={600}
                   height={600}
-                  className="w-80 sm:w-96 md:w-md lg:w-lg h-auto object-contain"
+                  className="w-64 sm:w-80 md:w-96 lg:w-[28rem] h-auto object-contain"
                   priority
                 />
               </div>
@@ -174,7 +175,7 @@ const LoadingScreen = () => {
                   alt=""
                   width={600}
                   height={600}
-                  className="w-80 sm:w-96 md:w-md lg:w-lg h-auto object-contain"
+                  className="w-64 sm:w-80 md:w-96 lg:w-[28rem] h-auto object-contain"
                   priority
                 />
               </div>
@@ -192,7 +193,7 @@ const LoadingScreen = () => {
               alt="Axelfest Logo"
               width={600}
               height={600}
-              className="w-80 sm:w-96 md:w-md lg:w-lg h-auto object-contain drop-shadow-2xl"
+              className="w-64 sm:w-80 md:w-96 lg:w-[28rem] h-auto object-contain drop-shadow-2xl"
               priority
             />
           </div>
