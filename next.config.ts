@@ -87,7 +87,24 @@ const nextConfig: NextConfig = {
       {
         // Pas toe op alle routes
         source: '/:path*',
-        headers: securityHeaders,
+        headers: [
+          ...securityHeaders,
+          // Force no-cache voor HTML om altijd nieuwste versie te krijgen
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate, max-age=0',
+          },
+        ],
+      },
+      {
+        // Static assets (JS, CSS) mogen wel gecached worden met versioning
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
       },
     ];
   },

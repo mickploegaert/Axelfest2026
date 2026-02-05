@@ -104,6 +104,10 @@ export default function RootLayout({
   return (
     <html lang="nl">
       <head>
+        {/* Force no-cache op iOS Safari */}
+        <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta httpEquiv="Pragma" content="no-cache" />
+        <meta httpEquiv="Expires" content="0" />
         {/* DNS prefetch en preconnect voor snellere externe resources */}
         <link rel="preconnect" href="https://challenges.cloudflare.com" />
         <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />
