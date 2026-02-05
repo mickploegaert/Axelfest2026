@@ -18,6 +18,7 @@ export default function WhatIsAxelfest() {
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
   const [phase, setPhase] = useState(0);
   const [videoCircleScale, setVideoCircleScale] = useState(0);
+  const [showControls, setShowControls] = useState(false);
   
   // Scroll progress voor video circle expand op dezelfde sectie
   const { scrollYProgress } = useScroll({
@@ -37,9 +38,13 @@ export default function WhatIsAxelfest() {
   useEffect(() => {
     const unsubscribe = videoScale.on('change', (latest) => {
       setVideoCircleScale(latest);
+      // Toon controls als cirkel bijna vol is
+      if (latest >= 120 && !showControls) {
+        setShowControls(true);
+      }
     });
     return () => unsubscribe();
-  }, [videoScale]);
+  }, [videoScale, showControls]);
   
   const [displayedText, setDisplayedText] = useState('');
   const fullText = 'De ultieme festival ervaring in het hart van Zeeland. Waar muziek, cultuur en vriendschap samenkomen op het iconische Hofplein in Axel. Twee dagen vol onvergetelijke momenten, legendarische artiesten en een sfeer die je nergens anders vindt. Dit is meer dan een festival dit is AXELFEST.';
@@ -85,7 +90,7 @@ export default function WhatIsAxelfest() {
   return (
     <section 
       ref={containerRef} 
-      className="relative h-[250vh] sm:h-[300vh] md:h-[350vh] lg:h-[400vh]"
+      className="relative h-[180vh] sm:h-[220vh] md:h-[250vh] lg:h-[300vh]"
     >
       {/* Loading Bar - bovenaan */}
       <motion.div 
@@ -221,20 +226,20 @@ export default function WhatIsAxelfest() {
           style={{ opacity: videoOpacity }}
         >
           <div
-            className="relative w-full h-full overflow-hidden"
+            className="absolute inset-0 flex items-center justify-center"
             style={{
               clipPath: videoCircleScale >= 140 
                 ? 'none' 
-                : `circle(${videoCircleScale}vmax at 50% 50%)`
+                : `circle(${videoCircleScale}vmax at 50% 50%)`,
             }}
           >
             <video
               ref={videoRef}
-              className="w-full h-full object-cover"
+              className="min-w-full min-h-full w-auto h-auto max-w-none object-cover"
               src="/Videos/2025aftermovie.mp4"
               loop
               playsInline
-              controls
+              controls={showControls}
               preload="metadata"
               controlsList="nodownload"
             />
