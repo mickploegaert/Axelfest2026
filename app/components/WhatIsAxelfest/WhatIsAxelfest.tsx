@@ -210,12 +210,12 @@ export default function WhatIsAxelfest() {
           className="absolute inset-0 z-[60]"
           style={{ opacity: videoOpacity }}
         >
-          {/* Video container - full screen cover op mobile, contain op desktop */}
-          <div className="relative w-full h-full flex items-center justify-center bg-black">
+          {/* Video container - full screen op alle apparaten */}
+          <div className="relative w-full h-full">
             <video
               ref={videoRef}
               style={{ pointerEvents: 'all' }}
-              className="w-full h-full object-cover sm:object-contain"
+              className="w-full h-full object-cover"
               src="/Videos/2025aftermovie.mp4"
               loop
               playsInline

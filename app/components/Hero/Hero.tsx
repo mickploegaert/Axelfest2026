@@ -64,7 +64,6 @@ const Hero = () => {
         loop
         playsInline
         preload="auto"
-        poster="/BackgroundMain/Background.jpg"
       >
         <source src="/Videos/2025aftermovie.mp4" type="video/mp4" />
       </video>
