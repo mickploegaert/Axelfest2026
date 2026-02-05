@@ -106,3 +106,105 @@ body {
 .animate-fade-in-delayed {
   animation: fade-in-delayed 1.2s ease-out forwards;
 }
+
+/* Wave animations */
+@keyframes wave-flow {
+  0%, 100% {
+    d: path("M0,96L48,117.3C96,139,192,181,288,181.3C384,181,480,139,576,106.7C672,75,768,53,864,90.7C960,128,1056,224,1152,266.7C1248,309,1344,299,1392,293.3L1440,288L1440,320L0,320Z");
+  }
+  50% {
+    d: path("M0,128L48,138.7C96,149,192,171,288,165.3C384,160,480,128,576,133.3C672,139,768,181,864,186.7C960,192,1056,160,1152,154.7C1248,149,1344,171,1392,181.3L1440,192L1440,320L0,320Z");
+  }
+}
+
+@keyframes wave-flow-reverse {
+  0%, 100% {
+    d: path("M0,32L48,26.7C96,21,192,11,288,53.3C384,96,480,192,576,229.3C672,267,768,245,864,213.3C960,181,1056,139,1152,138.7C1248,139,1344,181,1392,202.7L1440,224L1440,0L0,0Z");
+  }
+  50% {
+    d: path("M0,64L48,74.7C96,85,192,107,288,122.7C384,139,480,149,576,165.3C672,181,768,203,864,192C960,181,1056,139,1152,117.3C1248,96,1344,96,1392,96L1440,96L1440,0L0,0Z");
+  }
+}
+
+.animate-wave-path {
+  animation: wave-flow 4s ease-in-out infinite;
+}
+
+.animate-wave-path-reverse {
+  animation: wave-flow-reverse 4s ease-in-out infinite;
+}
+
+/* Cross-browser optimalisaties */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Verbeter scroll performance */
+html {
+  scroll-behavior: auto !important;
+}
+
+/* Voorkom layout shifts en glitches */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix Safari flexbox bugs */
+.flex {
+  min-width: 0;
+}
+
+/* Smooth GPU accelerated animations */
+.transform, [class*="translate"], [class*="scale"], [class*="rotate"] {
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Fix voor iOS Safari touch scrolling */
+.overflow-hidden {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Voorkom selectie glitches */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Fix Safari SVG rendering */
+svg {
+  shape-rendering: geometricPrecision;
+}
+
+/* Verbeter video rendering cross-browser */
+video {
+  object-fit: cover;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Mobile menu body scroll lock helper */
+body.menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Accessibility - focus styles */
+:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

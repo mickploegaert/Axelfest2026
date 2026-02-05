@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { HiMenu, HiX } from "react-icons/hi";
@@ -20,6 +20,18 @@ const navItems: NavItem[] = [
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
 
   return (
     <>
@@ -78,7 +90,7 @@ const Navbar = () => {
               {/* Hamburger Menu Button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 text-white hover:bg-white/10 rounded-lg transition-all duration-300"
+                className="lg:hidden flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 text-white hover:bg-white/10 rounded-lg transition-all duration-300 relative z-60"
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? (
@@ -94,26 +106,40 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`fixed inset-0 bg-black/95 backdrop-blur-md z-40 transition-all duration-300 lg:hidden ${
-          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        className={`fixed inset-0 bg-black/98 z-55 transition-all duration-300 lg:hidden ${
+          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
         }`}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8">
-          {navItems.map((item, index) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              onClick={() => setIsMenuOpen(false)}
-              className="font-outfit text-white text-3xl sm:text-4xl font-light tracking-wide hover:text-white/70 transition-all duration-300"
-              style={{ 
-                animationDelay: `${index * 100}ms`,
-                animation: isMenuOpen ? 'fadeInUp 0.5s ease forwards' : 'none',
-                opacity: isMenuOpen ? 1 : 0
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
+        {/* Close button area at top */}
+        <div className="absolute top-0 left-0 right-0 h-20 sm:h-24 flex items-center justify-end px-4 sm:px-6">
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 text-white hover:bg-white/10 rounded-lg transition-all duration-300"
+            aria-label="Close menu"
+          >
+            <HiX className="w-6 h-6 sm:w-7 sm:h-7" />
+          </button>
+        </div>
+
+        {/* Menu content - centered with proper spacing */}
+        <div className="flex flex-col items-center justify-center h-full pt-20 pb-8 px-6 overflow-y-auto">
+          <nav className="flex flex-col items-center gap-6 sm:gap-8">
+            {navItems.map((item, index) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className="font-outfit text-white text-2xl sm:text-3xl md:text-4xl font-light tracking-wide hover:text-white/70 transition-all duration-300 transform"
+                style={{ 
+                  animationDelay: `${index * 80}ms`,
+                  animation: isMenuOpen ? 'fadeInUp 0.4s ease forwards' : 'none',
+                  opacity: isMenuOpen ? 1 : 0
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
           
           {/* Mobile Tickets Button */}
           <a
@@ -121,15 +147,27 @@ const Navbar = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setIsMenuOpen(false)}
-            className="mt-4 font-outfit font-light text-white text-2xl tracking-widest uppercase px-8 py-4 border border-white/50 hover:border-white hover:bg-white hover:text-black bg-transparent transition-all duration-300"
+            className="mt-8 sm:mt-10 font-outfit font-light text-white text-xl sm:text-2xl tracking-widest uppercase px-8 py-4 border border-white/50 hover:border-white hover:bg-white hover:text-black bg-transparent transition-all duration-300"
+            style={{ 
+              animationDelay: `${navItems.length * 80}ms`,
+              animation: isMenuOpen ? 'fadeInUp 0.4s ease forwards' : 'none',
+              opacity: isMenuOpen ? 1 : 0
+            }}
           >
             Tickets
           </a>
           
           {/* Mobile Date/Location */}
-          <div className="mt-8 flex flex-col items-center font-outfit text-white/60 text-center">
-            <span className="text-lg">25 & 26 September</span>
-            <span className="text-base">Hofplein Axel</span>
+          <div 
+            className="mt-10 sm:mt-12 flex flex-col items-center font-outfit text-white/50 text-center"
+            style={{ 
+              animationDelay: `${(navItems.length + 1) * 80}ms`,
+              animation: isMenuOpen ? 'fadeInUp 0.4s ease forwards' : 'none',
+              opacity: isMenuOpen ? 1 : 0
+            }}
+          >
+            <span className="text-base sm:text-lg">25 & 26 September 2026</span>
+            <span className="text-sm sm:text-base mt-1">Hofplein Axel</span>
           </div>
         </div>
       </div>

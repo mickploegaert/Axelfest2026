@@ -12,3 +12,4 @@ export { default as Info } from "./Info";
 export { default as Contact } from "./Contact";
 export { TurnstileWrapper } from "./TurnstileWrapper";
 export { CookieConsent } from "./CookieConsent";
+export { default as JsonLd } from "./JsonLd";

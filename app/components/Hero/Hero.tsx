@@ -1,13 +1,61 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Hero = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleCanPlay = () => {
+      setVideoLoaded(true);
+    };
+
+    const handleError = () => {
+      setVideoError(true);
+    };
+
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('error', handleError);
+
+    // Check if video is already ready (use timeout to avoid sync setState)
+    const checkReady = setTimeout(() => {
+      if (video.readyState >= 3) {
+        setVideoLoaded(true);
+      }
+    }, 0);
+
+    return () => {
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('error', handleError);
+      clearTimeout(checkReady);
+    };
+  }, []);
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      {/* Fallback Background Image - altijd zichtbaar tot video laadt */}
+      <div className={`absolute inset-0 transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-0' : 'opacity-100'}`}>
+        <Image
+          src="/BackgroundMain/Background.jpg"
+          alt="Axelfest achtergrond"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+      </div>
+
       {/* Background Video - geoptimaliseerd voor sneller laden */}
       <video
-        className="absolute inset-0 w-full h-full object-cover"
+        ref={videoRef}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-100' : 'opacity-0'}`}
         autoPlay
         muted
         loop
@@ -15,7 +63,7 @@ const Hero = () => {
         preload="auto"
         poster="/BackgroundMain/Background.jpg"
       >
-        <source src="/Videos/aftermoviecut.mp4" type="video/mp4" />
+        <source src="/Videos/2025aftermovie.mp4" type="video/mp4" />
       </video>
       
       {/* Gradient Overlay */}

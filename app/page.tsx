@@ -18,7 +18,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
+    <>
       <Hero />
       <WhatIsAxelfest />
       <Oktoberfest />
@@ -26,7 +26,7 @@ export default function Home() {
       <Gallery />
       <Location />
       <Footer />
-    </main>
+    </>
   );
 }
 

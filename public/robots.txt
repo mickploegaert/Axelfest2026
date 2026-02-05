@@ -1,0 +1,16 @@
+# Robots.txt voor Axelfest.nl
+# https://axelfest.nl
+
+User-agent: *
+Allow: /
+
+# Sitemap locatie
+Sitemap: https://axelfest.nl/sitemap.xml
+
+# Blokkeer alleen admin/api routes indien aanwezig
+Disallow: /api/
+Disallow: /_next/
+Disallow: /private/
+
+# Crawl-delay (optioneel, niet alle bots respecteren dit)
+Crawl-delay: 1

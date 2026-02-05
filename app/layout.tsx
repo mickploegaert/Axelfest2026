@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Outfit, Anton } from "next/font/google";
 import "./globals.css";
-import { Navbar, LoadingScreen, CookieConsent } from "./components";
+import { Navbar, LoadingScreen, CookieConsent, JsonLd } from "./components";
 import ScrollManager from "./components/ScrollManager";
 
 const geistSans = Geist({
@@ -26,11 +26,74 @@ const anton = Anton({
 });
 
 export const metadata: Metadata = {
-  title: "Axelfest",
-  description: "De ultieme festival ervaring in het hart van Zeeland",
+  // Basis SEO
+  title: {
+    default: "Axelfest 2026 | Festival Hofplein Axel",
+    template: "%s | Axelfest 2026",
+  },
+  description: "Axelfest 2026 - De ultieme festival ervaring in het hart van Zeeland. 25 & 26 september op het Hofplein in Axel. Koop nu je tickets voor twee dagen vol muziek, feest en onvergetelijke momenten!",
+  keywords: ["Axelfest", "festival", "Axel", "Zeeland", "Hofplein", "2026", "muziek", "feest", "tickets", "september"],
+  authors: [{ name: "Axelfest" }],
+  creator: "Axelfest",
+  publisher: "Axelfest",
+  
+  // Canonical URL
+  metadataBase: new URL("https://axelfest.nl"),
+  alternates: {
+    canonical: "/",
+  },
+  
+  // Robots
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  
+  // Open Graph (Facebook, LinkedIn, WhatsApp)
+  openGraph: {
+    type: "website",
+    locale: "nl_NL",
+    url: "https://axelfest.nl",
+    siteName: "Axelfest",
+    title: "Axelfest 2026 | 25 & 26 September - Hofplein Axel",
+    description: "De ultieme festival ervaring in het hart van Zeeland. Twee dagen vol muziek, feest en onvergetelijke momenten op het Hofplein in Axel!",
+    images: [
+      {
+        url: "/BackgroundMain/Background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Axelfest 2026 - Festival op het Hofplein in Axel",
+      },
+    ],
+  },
+  
+  // Twitter Card
+  twitter: {
+    card: "summary_large_image",
+    title: "Axelfest 2026 | 25 & 26 September",
+    description: "De ultieme festival ervaring in Zeeland! Koop nu je tickets voor Axelfest 2026.",
+    images: ["/BackgroundMain/Background.jpg"],
+    creator: "@axelfest",
+  },
+  
+  // Icons
   icons: {
     icon: "/favico.png",
+    shortcut: "/favico.png",
+    apple: "/favico.png",
   },
+  
+  // Verificatie (voeg je eigen codes toe indien nodig)
+  // verification: {
+  //   google: "your-google-verification-code",
+  // },
 };
 
 export default function RootLayout({
@@ -47,17 +110,30 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Preload kritieke video */}
-        <link rel="preload" href="/Videos/aftermoviecut.mp4" as="video" type="video/mp4" />
+        <link rel="preload" href="/Videos/2025aftermovie.mp4" as="video" type="video/mp4" />
         {/* Preload kritieke achtergrond */}
         <link rel="preload" href="/BackgroundMain/Background.jpg" as="image" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${anton.variable} antialiased`}
       >
+        {/* JSON-LD Structured Data voor SEO */}
+        <JsonLd />
+        
+        {/* Skip to content link voor toegankelijkheid */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-9999 focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded-lg focus:font-outfit focus:font-semibold"
+        >
+          Ga naar hoofdinhoud
+        </a>
+        
         <ScrollManager />
         <LoadingScreen />
         <Navbar />
-        {children}
+        <main id="main-content">
+          {children}
+        </main>
         <CookieConsent />
       </body>
     </html>

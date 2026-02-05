@@ -1,45 +1,44 @@
 'use client';
 
-import { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, useInView, AnimatePresence, PanInfo } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { HiX, HiChevronLeft, HiChevronRight, HiZoomIn, HiZoomOut } from 'react-icons/hi';
 
 const photos = [
+  // Alle unieke foto's uit fotos mapje
+  { src: '/fotos/2025-09-26 Axelfest 2025 Vrijdag-38.jpg' },
+  { src: '/fotos/2025-09-26 Axelfest 2025 Vrijdag-52.jpg' },
+  { src: '/fotos/2025-09-27 Axelfest 2025 Zaterdag-29.jpg' },
+  { src: '/fotos/2025-09-27 Axelfest 2025 Zaterdag-55.jpg' },
+  { src: '/fotos/2025-09-27 Axelfest 2025 Zaterdag-86.jpg' },
+  { src: '/fotos/2025-09-27 Axelfest 2025 Zaterdag-89.jpg' },
+  { src: '/fotos/2025-09-27 Axelfest 2025 Zaterdag-91.jpg' },
+  { src: '/fotos/boss.jpg' },
+  { src: '/fotos/homos.jpg' },
+  // Slideshow mapje (unieke, geen dubbele gaylords)
   { src: '/Slideshow/lieszhara.jpg' },
   { src: '/Slideshow/julius.jpg' },
-  { src: '/Slideshow/image.png' },
   { src: '/Slideshow/guus.jpg' },
   { src: '/Slideshow/gitaruist.jpg' },
   { src: '/Slideshow/ginandjuice.jpg' },
-  { src: '/Slideshow/gaylords.jpg' },
   { src: '/Slideshow/fire.jpg' },
   { src: '/Slideshow/crew.jpg' },
-  { src: '/Slideshow/camiel.jpg' },
   { src: '/Slideshow/noa.jpg' },
 ];
 
-// Ken Burns animation variants
+// Ken Burns animation variants - subtiel voor betere zichtbaarheid
 const kenBurnsVariants = [
-  { scale: 1, x: 0, y: 0 },
-  { scale: 1.15, x: -20, y: -10 },
-  { scale: 1.1, x: 20, y: -15 },
-  { scale: 1.12, x: -15, y: 15 },
-  { scale: 1.08, x: 10, y: 10 },
+  { scale: 1.02, x: 0, y: 0, endX: 8, endY: 5 },
+  { scale: 1.03, x: -5, y: -3, endX: 5, endY: 3 },
+  { scale: 1.02, x: 5, y: -2, endX: -5, endY: 2 },
+  { scale: 1.03, x: -3, y: 4, endX: 3, endY: -4 },
+  { scale: 1.02, x: 4, y: 3, endX: -4, endY: -3 },
 ];
 
 export default function Gallery() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
-  const thumbnailRef = useRef<HTMLDivElement>(null);
-  const hasUserInteracted = useRef(false);
-  const previousIndex = useRef(0);
 
   // Preload next images
   useEffect(() => {
@@ -47,7 +46,6 @@ export default function Gallery() {
       const indicesToPreload = [
         (currentIndex + 1) % photos.length,
         (currentIndex + 2) % photos.length,
-        (currentIndex - 1 + photos.length) % photos.length,
       ];
       
       indicesToPreload.forEach((index) => {
@@ -59,169 +57,75 @@ export default function Gallery() {
     preloadImages();
   }, [currentIndex]);
 
-  // Auto-play
+  // Auto-play slideshow
   useEffect(() => {
-    if (isPaused || isLightboxOpen) return;
     const timer = setInterval(() => {
-      setSwipeDirection('left');
       setCurrentIndex((prev) => (prev + 1) % photos.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [isPaused, isLightboxOpen]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isLightboxOpen) {
-        if (e.key === 'Escape') setIsLightboxOpen(false);
-        if (e.key === 'ArrowLeft') {
-          setLightboxIndex((prev) => (prev - 1 + photos.length) % photos.length);
-        }
-        if (e.key === 'ArrowRight') {
-          setLightboxIndex((prev) => (prev + 1) % photos.length);
-        }
-      } else {
-        if (e.key === 'ArrowLeft') goToPrevious();
-        if (e.key === 'ArrowRight') goToNext();
-        if (e.key === ' ') {
-          e.preventDefault();
-          setIsPaused((prev) => !prev);
-        }
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isLightboxOpen]);
-
-  // Scroll thumbnail into view (only after user has interacted)
-  useEffect(() => {
-    // Only scroll if index actually changed and user has interacted
-    if (hasUserInteracted.current && previousIndex.current !== currentIndex && thumbnailRef.current) {
-      const activeThumb = thumbnailRef.current.children[currentIndex] as HTMLElement;
-      if (activeThumb) {
-        // Use scrollIntoView with block: 'nearest' to prevent page scrolling
-        const container = thumbnailRef.current;
-        const thumbRect = activeThumb.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        
-        // Only scroll horizontally within the thumbnail container
-        if (thumbRect.left < containerRect.left || thumbRect.right > containerRect.right) {
-          const scrollLeft = activeThumb.offsetLeft - (container.offsetWidth / 2) + (activeThumb.offsetWidth / 2);
-          container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
-        }
-      }
-    }
-    previousIndex.current = currentIndex;
-  }, [currentIndex]);
-
-  const goToNext = useCallback(() => {
-    hasUserInteracted.current = true;
-    setSwipeDirection('left');
-    setCurrentIndex((prev) => (prev + 1) % photos.length);
   }, []);
 
-  const goToPrevious = useCallback(() => {
-    hasUserInteracted.current = true;
-    setSwipeDirection('right');
-    setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length);
-  }, []);
-
-  const goToSlide = (index: number) => {
-    hasUserInteracted.current = true;
-    setSwipeDirection(index > currentIndex ? 'left' : 'right');
-    setCurrentIndex(index);
-  };
-
-  // Swipe handlers
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const threshold = 50;
-    if (info.offset.x < -threshold) {
-      goToNext();
-    } else if (info.offset.x > threshold) {
-      goToPrevious();
-    }
-  };
-
-  // Lightbox handlers
-  const openLightbox = (index: number) => {
-    setLightboxIndex(index);
-    setIsLightboxOpen(true);
-    setIsZoomed(false);
-  };
-
-  const closeLightbox = () => {
-    setIsLightboxOpen(false);
-    setIsZoomed(false);
-  };
-
-  // Get Ken Burns variant for current index
+  // Get Ken Burns variant for current index - vloeiende beweging
   const getKenBurnsAnimation = (index: number) => {
     const variant = kenBurnsVariants[index % kenBurnsVariants.length];
     return {
-      initial: { scale: 1, x: 0, y: 0 },
+      initial: { scale: 1, x: variant.x, y: variant.y },
       animate: { 
         scale: variant.scale, 
-        x: variant.x, 
-        y: variant.y,
-        transition: { duration: 5, ease: 'linear' as const }
+        x: variant.endX, 
+        y: variant.endY,
+        transition: { 
+          duration: 6, 
+          ease: [0.25, 0.1, 0.25, 1] as const // custom cubic-bezier voor vloeiendheid
+        }
       },
     };
   };
 
   return (
-    <>
-      <section 
-        ref={containerRef}
-        className="relative"
-      >
-        {/* Header */}
-        <div className="relative py-10 sm:py-12 md:py-16 lg:py-20 px-4">
-          {/* Background Image */}
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/BackgroundMain/Background.jpg"
-              alt="Background"
-              fill
-              loading="lazy"
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="max-w-7xl mx-auto relative z-10"
-          >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight font-phosphate text-center">
-              SFEERIMPRESSIE
-            </h2>
-            <div className="w-16 sm:w-20 md:w-24 h-1 bg-white mx-auto mt-4 sm:mt-6" />
-          </motion.div>
+    <section 
+      ref={containerRef}
+      className="relative"
+    >
+      {/* Header met Background */}
+      <div className="relative py-10 sm:py-12 md:py-16 lg:py-20 px-4">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/BackgroundMain/Background.jpg"
+            alt="Background"
+            fill
+            loading="lazy"
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
-
-        {/* Fullscreen Slideshow */}
+        
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative h-[70vh] sm:h-[80vh] md:h-screen overflow-hidden cursor-grab active:cursor-grabbing"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="max-w-7xl mx-auto relative z-10"
         >
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight font-phosphate text-center">
+            SFEERIMPRESSIE
+          </h2>
+          <div className="w-16 sm:w-20 md:w-24 h-1 bg-white mx-auto mt-4 sm:mt-6" />
+        </motion.div>
+      </div>
+
+      {/* Slideshow container met waves er overheen */}
+      <div className="relative">
+        {/* Fullscreen Slideshow - grotere sectie voor betere foto zichtbaarheid */}
+        <div className="relative h-[70vh] sm:h-[80vh] md:h-[85vh] lg:h-[90vh] overflow-hidden">
           {/* Photos with Ken Burns Effect */}
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={currentIndex}
-              initial={{ opacity: 0, x: swipeDirection === 'left' ? 100 : -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: swipeDirection === 'left' ? -100 : 100 }}
-              transition={{ duration: 0.5, ease: 'easeInOut' }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDragEnd={handleDragEnd}
-              onClick={() => openLightbox(currentIndex)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1, ease: 'easeInOut' }}
               className="absolute inset-0"
             >
               <motion.div
@@ -233,237 +137,104 @@ export default function Gallery() {
                   src={photos[currentIndex].src}
                   alt={`Festival foto ${currentIndex + 1}`}
                   fill
-                  className="object-cover"
+                  className="object-cover object-center"
+                  style={{ objectPosition: '50% 35%' }} // Iets hoger voor gezichten
                   priority={currentIndex === 0}
                   sizes="100vw"
                 />
               </motion.div>
             </motion.div>
           </AnimatePresence>
+        </div>
 
-          {/* Click to expand hint */}
-          <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
-            <div className="bg-black/50 backdrop-blur-sm text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full flex items-center gap-2 text-xs sm:text-sm font-outfit">
-              <HiZoomIn className="w-4 h-4" />
-              <span className="hidden sm:inline">Klik om te vergroten</span>
-            </div>
+        {/* Top Wave - ligt OVER de foto met Background.jpg */}
+        <div className="absolute top-0 left-0 right-0 w-full h-24 sm:h-32 md:h-40 lg:h-48 z-10 pointer-events-none overflow-hidden">
+          {/* Vaste rechthoek bovenaan om gap te voorkomen */}
+          <div className="absolute top-0 left-0 right-0 h-4 z-20">
+            <Image
+              src="/BackgroundMain/Background.jpg"
+              alt=""
+              fill
+              className="object-cover"
+              style={{ objectPosition: 'center top' }}
+            />
           </div>
-
-          {/* Arrow Navigation (Desktop) */}
-          <button
-            onClick={(e) => { e.stopPropagation(); goToPrevious(); }}
-            className="hidden md:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-black/40 backdrop-blur-sm hover:bg-black/60 rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110"
-            aria-label="Vorige foto"
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
           >
-            <HiChevronLeft className="w-6 h-6 lg:w-8 lg:h-8" />
-          </button>
-          <button
-            onClick={(e) => { e.stopPropagation(); goToNext(); }}
-            className="hidden md:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-black/40 backdrop-blur-sm hover:bg-black/60 rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110"
-            aria-label="Volgende foto"
-          >
-            <HiChevronRight className="w-6 h-6 lg:w-8 lg:h-8" />
-          </button>
-
-          {/* Swipe hint (Mobile) */}
-          <div className="md:hidden absolute bottom-32 left-1/2 -translate-x-1/2 z-20">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 0.5 }}
-              className="bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-xs font-outfit flex items-center gap-2"
-            >
-              <HiChevronLeft className="w-4 h-4" />
-              <span>Swipe om te navigeren</span>
-              <HiChevronRight className="w-4 h-4" />
-            </motion.div>
-          </div>
-
-          {/* Controls Overlay */}
-          <div className="absolute inset-x-0 bottom-0 z-10 bg-linear-to-t from-black/60 via-black/30 to-transparent pt-20 pb-4 sm:pb-6 md:pb-8">
-            {/* Thumbnail Strip */}
-            <div className="mb-4 sm:mb-6 px-4">
-              <div 
-                ref={thumbnailRef}
-                className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide py-2 px-2 max-w-4xl mx-auto"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
-                {photos.map((photo, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={`relative shrink-0 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-lg overflow-hidden transition-all duration-300 ${
-                      index === currentIndex 
-                        ? 'ring-2 ring-white scale-110 z-10' 
-                        : 'opacity-60 hover:opacity-100 hover:scale-105'
-                    }`}
-                    aria-label={`Ga naar foto ${index + 1}`}
-                  >
-                    <Image
-                      src={photo.src}
-                      alt={`Thumbnail ${index + 1}`}
-                      fill
-                      loading="lazy"
-                      className="object-cover"
-                      sizes="80px"
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Bottom Controls */}
-            <div className="flex items-center justify-center gap-4 sm:gap-6">
-              {/* Pause/Play Button */}
-              <button
-                onClick={() => setIsPaused(!isPaused)}
-                className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 border border-white/30"
-                aria-label={isPaused ? "Afspelen" : "Pauzeren"}
-              >
-                {isPaused ? (
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                ) : (
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-                  </svg>
-                )}
-              </button>
-
-              {/* Counter */}
-              <div className="bg-white/20 backdrop-blur-sm px-4 sm:px-5 py-2 rounded-full border border-white/30">
-                <span className="font-outfit font-semibold text-white text-sm sm:text-base">
-                  {currentIndex + 1} / {photos.length}
-                </span>
-              </div>
-
-              {/* Fullscreen Button */}
-              <button
-                onClick={() => openLightbox(currentIndex)}
-                className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 border border-white/30"
-                aria-label="Fullscreen"
-              >
-                <HiZoomIn className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-              </button>
-            </div>
-          </div>
-        </motion.div>
-        
-        {/* Divider */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-500/50" />
-      </section>
-
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {isLightboxOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-100 bg-black/95 backdrop-blur-md flex items-center justify-center"
-            onClick={closeLightbox}
-          >
-            {/* Close Button */}
-            <button
-              onClick={closeLightbox}
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all duration-200"
-              aria-label="Sluiten"
-            >
-              <HiX className="w-6 h-6" />
-            </button>
-
-            {/* Zoom Toggle */}
-            <button
-              onClick={(e) => { e.stopPropagation(); setIsZoomed(!isZoomed); }}
-              className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all duration-200"
-              aria-label={isZoomed ? "Uitzoomen" : "Inzoomen"}
-            >
-              {isZoomed ? (
-                <HiZoomOut className="w-6 h-6" />
-              ) : (
-                <HiZoomIn className="w-6 h-6" />
-              )}
-            </button>
-
-            {/* Navigation Arrows */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxIndex((prev) => (prev - 1 + photos.length) % photos.length);
+            <defs>
+              <pattern id="bgPatternTop" patternUnits="objectBoundingBox" width="1" height="1">
+                <image 
+                  href="/BackgroundMain/Background.jpg" 
+                  width="1440" 
+                  height="320"
+                  preserveAspectRatio="xMidYMid slice"
+                />
+              </pattern>
+            </defs>
+            {/* Top wave - morphing animation via d attribute */}
+            <motion.path
+              fill="url(#bgPatternTop)"
+              initial={{ d: "M0,0L0,224L48,202.7C96,181,192,139,288,138.7C384,139,480,181,576,213.3C672,245,768,267,864,229.3C960,192,1056,96,1152,53.3C1248,11,1344,21,1392,26.7L1440,32L1440,0Z" }}
+              animate={{ 
+                d: [
+                  "M0,0L0,224L48,202.7C96,181,192,139,288,138.7C384,139,480,181,576,213.3C672,245,768,267,864,229.3C960,192,1056,96,1152,53.3C1248,11,1344,21,1392,26.7L1440,32L1440,0Z",
+                  "M0,0L0,200L48,220.7C96,200,192,160,288,170.7C384,181,480,160,576,190.3C672,220,768,240,864,210.3C960,180,1056,120,1152,80.3C1248,40,1344,50,1392,55.7L1440,60L1440,0Z",
+                  "M0,0L0,240L48,190.7C96,170,192,150,288,160.7C384,170,480,200,576,230.3C672,260,768,250,864,220.3C960,190,1056,110,1152,70.3C1248,30,1344,40,1392,45.7L1440,50L1440,0Z",
+                  "M0,0L0,224L48,202.7C96,181,192,139,288,138.7C384,139,480,181,576,213.3C672,245,768,267,864,229.3C960,192,1056,96,1152,53.3C1248,11,1344,21,1392,26.7L1440,32L1440,0Z"
+                ]
               }}
-              className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all duration-200"
-              aria-label="Vorige"
-            >
-              <HiChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxIndex((prev) => (prev + 1) % photos.length);
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </svg>
+        </div>
+
+        {/* Bottom Wave - ligt OVER de foto met Background.jpg */}
+        <div className="absolute bottom-0 left-0 right-0 w-full h-24 sm:h-32 md:h-40 lg:h-48 z-10 pointer-events-none overflow-hidden">
+          {/* Vaste rechthoek onderaan om gap te voorkomen */}
+          <div className="absolute bottom-0 left-0 right-0 h-4 z-20">
+            <Image
+              src="/BackgroundMain/Background.jpg"
+              alt=""
+              fill
+              className="object-cover"
+              style={{ objectPosition: 'center bottom' }}
+            />
+          </div>
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <pattern id="bgPatternBottom" patternUnits="objectBoundingBox" width="1" height="1">
+                <image 
+                  href="/BackgroundMain/Background.jpg" 
+                  width="1440" 
+                  height="320"
+                  preserveAspectRatio="xMidYMid slice"
+                />
+              </pattern>
+            </defs>
+            {/* Bottom wave - morphing animation via d attribute */}
+            <motion.path
+              fill="url(#bgPatternBottom)"
+              initial={{ d: "M0,96L48,117.3C96,139,192,181,288,181.3C384,181,480,139,576,106.7C672,75,768,53,864,90.7C960,128,1056,224,1152,266.7C1248,309,1344,299,1392,293.3L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" }}
+              animate={{ 
+                d: [
+                  "M0,96L48,117.3C96,139,192,181,288,181.3C384,181,480,139,576,106.7C672,75,768,53,864,90.7C960,128,1056,224,1152,266.7C1248,309,1344,299,1392,293.3L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                  "M0,120L48,100.3C96,80,192,140,288,160.3C384,181,480,160,576,130.7C672,100,768,80,864,110.7C960,140,1056,200,1152,240.7C1248,280,1344,280,1392,275.3L1440,270L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                  "M0,80L48,130.3C96,150,192,170,288,170.3C384,170,480,130,576,100.7C672,70,768,60,864,80.7C960,100,1056,200,1152,250.7C1248,300,1344,290,1392,285.3L1440,280L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                  "M0,96L48,117.3C96,139,192,181,288,181.3C384,181,480,139,576,106.7C672,75,768,53,864,90.7C960,128,1056,224,1152,266.7C1248,309,1344,299,1392,293.3L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+                ]
               }}
-              className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all duration-200"
-              aria-label="Volgende"
-            >
-              <HiChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
-            </button>
-
-            {/* Main Image */}
-            <motion.div
-              key={lightboxIndex}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              className={`relative ${isZoomed ? 'w-full h-full' : 'w-[90vw] h-[80vh] sm:w-[85vw] sm:h-[85vh]'} transition-all duration-300`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Image
-                src={photos[lightboxIndex].src}
-                alt={`Festival foto ${lightboxIndex + 1}`}
-                fill
-                className={`${isZoomed ? 'object-contain' : 'object-contain'} transition-transform duration-300`}
-                sizes="100vw"
-                priority
-              />
-            </motion.div>
-
-            {/* Lightbox Counter */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full">
-              <span className="font-outfit font-semibold text-white">
-                {lightboxIndex + 1} / {photos.length}
-              </span>
-            </div>
-
-            {/* Lightbox Thumbnails */}
-            <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-2 max-w-[90vw] overflow-x-auto py-2 px-4">
-              {photos.map((photo, index) => (
-                <button
-                  key={index}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setLightboxIndex(index);
-                  }}
-                  className={`relative shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden transition-all duration-300 ${
-                    index === lightboxIndex 
-                      ? 'ring-2 ring-white scale-110' 
-                      : 'opacity-50 hover:opacity-100'
-                  }`}
-                >
-                  <Image
-                    src={photo.src}
-                    alt={`Thumbnail ${index + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="48px"
-                  />
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </svg>
+        </div>
+      </div>
+    </section>
   );
 }

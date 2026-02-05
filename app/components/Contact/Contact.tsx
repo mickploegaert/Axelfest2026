@@ -37,6 +37,7 @@ export default function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Initialize Turnstile widget
   useEffect(() => {
@@ -79,22 +80,31 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     
     if (!turnstileToken) {
-      console.log('Turnstile verification not complete');
+      setError('Beveiligingsverificatie niet voltooid. Wacht even en probeer opnieuw.');
       setIsSubmitting(false);
       return;
     }
 
     try {
-      console.log('Turnstile token:', turnstileToken);
-      
-      // Here you would send the form data along with the token to your backend
-      // The backend would verify the token with Cloudflare's API using your secret key
-      // POST to https://challenges.cloudflare.com/turnstile/v0/siteverify
-      
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          turnstileToken,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Er is een fout opgetreden');
+      }
       
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
@@ -104,8 +114,15 @@ export default function Contact() {
       if (window.turnstile && turnstileWidgetId) {
         window.turnstile.reset(turnstileWidgetId);
       }
-    } catch (error) {
-      console.error('Form submission error:', error);
+    } catch (err) {
+      console.error('Form submission error:', err);
+      setError(err instanceof Error ? err.message : 'Er is een fout opgetreden. Probeer het later opnieuw.');
+      
+      // Reset Turnstile widget on error
+      if (window.turnstile && turnstileWidgetId) {
+        window.turnstile.reset(turnstileWidgetId);
+      }
+      setTurnstileToken(null);
     }
     
     setIsSubmitting(false);
@@ -287,6 +304,18 @@ export default function Contact() {
                     Beveiligd door Cloudflare Turnstile
                   </p>
                 </div>
+
+                {/* Error Display */}
+                {error && (
+                  <div className="bg-red-500/20 border border-red-500/50 rounded-lg sm:rounded-xl p-4 sm:p-5">
+                    <p className="text-red-200 font-outfit text-sm sm:text-base md:text-lg flex items-center gap-2">
+                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      {error}
+                    </p>
+                  </div>
+                )}
 
                 {/* Submit Button */}
                 <button
