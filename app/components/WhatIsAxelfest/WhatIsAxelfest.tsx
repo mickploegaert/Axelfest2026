@@ -31,22 +31,6 @@ export default function WhatIsAxelfest() {
   // Video opacity - fade in tijdens scrollen
   const videoOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
   
-  // Play/pause video based on visibility
-  useEffect(() => {
-    const unsubscribe = videoOpacity.on('change', (opacity) => {
-      const video = videoRef.current;
-      if (!video) return;
-      
-      if (opacity > 0.5) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    });
-    
-    return () => unsubscribe();
-  }, [videoOpacity]);
-  
   const [displayedText, setDisplayedText] = useState('');
   const fullText = 'De ultieme festival ervaring in het hart van Zeeland. Waar muziek, cultuur en vriendschap samenkomen op het iconische Hofplein in Axel. Twee dagen vol onvergetelijke momenten, legendarische artiesten en een sfeer die je nergens anders vindt. Dit is meer dan een festival dit is AXELFEST.';
 
@@ -233,14 +217,11 @@ export default function WhatIsAxelfest() {
               style={{ pointerEvents: 'all' }}
               className="w-full h-full object-cover sm:object-contain"
               src="/Videos/2025aftermovie.mp4"
-              autoPlay
-              muted
               loop
               playsInline
               controls
               preload="auto"
               controlsList="nodownload"
-              poster="/BackgroundMain/Background.jpg"
             />
           </div>
         </motion.div>
