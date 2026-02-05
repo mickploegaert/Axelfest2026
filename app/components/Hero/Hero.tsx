@@ -5,13 +5,15 @@ import Link from "next/link";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      {/* Background Video */}
+      {/* Background Video - geoptimaliseerd voor sneller laden */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
         autoPlay
         muted
         loop
         playsInline
+        preload="auto"
+        poster="/BackgroundMain/Background.jpg"
       >
         <source src="/Videos/aftermoviecut.mp4" type="video/mp4" />
       </video>
@@ -62,9 +64,6 @@ const Hero = () => {
         <h1 className="font-phosphate text-white text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-wider leading-tight drop-shadow-2xl">
           AXELFEST
         </h1>
-        <h2 className="font-phosphate text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wider leading-tight drop-shadow-2xl">
-          FESTIVAL
-        </h2>
         <h2 className="font-phosphate text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wider leading-tight mb-12 drop-shadow-2xl">
           2026
         </h2>

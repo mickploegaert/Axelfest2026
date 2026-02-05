@@ -41,7 +41,15 @@ export default function RootLayout({
   return (
     <html lang="nl">
       <head>
+        {/* DNS prefetch en preconnect voor snellere externe resources */}
         <link rel="preconnect" href="https://challenges.cloudflare.com" />
+        <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preload kritieke video */}
+        <link rel="preload" href="/Videos/aftermoviecut.mp4" as="video" type="video/mp4" />
+        {/* Preload kritieke achtergrond */}
+        <link rel="preload" href="/BackgroundMain/Background.jpg" as="image" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${anton.variable} antialiased`}

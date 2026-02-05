@@ -257,7 +257,7 @@ export default function Oktoberfest() {
                 </div>
                 <div>
                   <p className="text-white/50 font-outfit text-sm">Muziek</p>
-                  <p className="text-white font-outfit font-semibold">Feest & Schlager</p>
+                  <p className="text-white font-outfit font-semibold">Feest & Pop</p>
                 </div>
               </motion.div>
             </div>

@@ -61,6 +61,8 @@ export default function Sponsors() {
           src="/BackgroundMain/Background.jpg"
           alt="Background"
           fill
+          loading="lazy"
+          sizes="100vw"
           className="object-cover"
         />
       </div>
@@ -114,6 +116,8 @@ export default function Sponsors() {
                       src={sponsor.logo}
                       alt={sponsor.name}
                       fill
+                      loading="lazy"
+                      sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, (max-width: 1024px) 208px, 320px"
                       className="object-contain"
                     />
                   </div>

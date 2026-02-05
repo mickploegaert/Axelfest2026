@@ -183,6 +183,8 @@ export default function Gallery() {
               src="/BackgroundMain/Background.jpg"
               alt="Background"
               fill
+              loading="lazy"
+              sizes="100vw"
               className="object-cover"
             />
           </div>
@@ -301,6 +303,7 @@ export default function Gallery() {
                       src={photo.src}
                       alt={`Thumbnail ${index + 1}`}
                       fill
+                      loading="lazy"
                       className="object-cover"
                       sizes="80px"
                     />

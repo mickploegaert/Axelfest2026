@@ -124,6 +124,8 @@ export default function WhatIsAxelfest() {
                   src={photo.src}
                   alt={photo.alt}
                   fill
+                  loading="lazy"
+                  sizes="(max-width: 768px) 50vw, 50vw"
                   className={`object-cover transition-all duration-1000 ${
                     phase >= 2 ? 'grayscale-0' : 'grayscale'
                   }`}
