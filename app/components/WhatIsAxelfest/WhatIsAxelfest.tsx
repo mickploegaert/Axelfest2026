@@ -17,6 +17,7 @@ export default function WhatIsAxelfest() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
   const [phase, setPhase] = useState(0);
+  const [videoCircleScale, setVideoCircleScale] = useState(0);
   
   // Scroll progress voor video circle expand op dezelfde sectie
   const { scrollYProgress } = useScroll({
@@ -29,9 +30,16 @@ export default function WhatIsAxelfest() {
   const loadingBarOpacity = useTransform(scrollYProgress, [0.85, 0.95], [1, 0]);
   
   // Video circle expansion - start klein in center, groei naar full screen
-  // Start met cirkel na text fase, eindig bij 80% scroll
   const videoScale = useTransform(scrollYProgress, [0.5, 0.85], [0, 150]);
   const videoOpacity = useTransform(scrollYProgress, [0.5, 0.55], [0, 1]);
+  
+  // Update video circle scale on scroll
+  useEffect(() => {
+    const unsubscribe = videoScale.on('change', (latest) => {
+      setVideoCircleScale(latest);
+    });
+    return () => unsubscribe();
+  }, [videoScale]);
   
   const [displayedText, setDisplayedText] = useState('');
   const fullText = 'De ultieme festival ervaring in het hart van Zeeland. Waar muziek, cultuur en vriendschap samenkomen op het iconische Hofplein in Axel. Twee dagen vol onvergetelijke momenten, legendarische artiesten en een sfeer die je nergens anders vindt. Dit is meer dan een festival dit is AXELFEST.';
@@ -209,24 +217,26 @@ export default function WhatIsAxelfest() {
 
         {/* Video Overlay - groeit vanuit cirkel naar full screen */}
         <motion.div 
-          className="absolute inset-0 z-[60] bg-black"
+          className="absolute inset-0 z-[60] bg-black flex items-center justify-center"
           style={{ opacity: videoOpacity }}
         >
-          <div className="relative w-full h-full flex items-center justify-center">
-            <motion.video
+          <div
+            className="relative w-full h-full overflow-hidden"
+            style={{
+              clipPath: videoCircleScale >= 140 
+                ? 'none' 
+                : `circle(${videoCircleScale}vmax at 50% 50%)`
+            }}
+          >
+            <video
               ref={videoRef}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="w-full h-full object-cover"
               src="/Videos/2025aftermovie.mp4"
               loop
               playsInline
               controls
               preload="metadata"
               controlsList="nodownload"
-              style={{
-                clipPath: useTransform(videoScale, (scale) => 
-                  scale >= 100 ? 'none' : `circle(${scale}vmax at 50% 50%)`
-                )
-              }}
             />
           </div>
         </motion.div>
