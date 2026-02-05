@@ -207,23 +207,19 @@ export default function WhatIsAxelfest() {
 
         {/* Video Overlay - vult precies de sectie */}
         <motion.div 
-          className="absolute inset-0 z-[60]"
+          className="absolute inset-0 z-[60] flex items-center justify-center"
           style={{ opacity: videoOpacity }}
         >
-          {/* Video container - full screen op alle apparaten */}
-          <div className="relative w-full h-full">
-            <video
-              ref={videoRef}
-              style={{ pointerEvents: 'all' }}
-              className="w-full h-full object-cover"
-              src="/Videos/2025aftermovie.mp4"
-              loop
-              playsInline
-              controls
-              preload="auto"
-              controlsList="nodownload"
-            />
-          </div>
+          <video
+            ref={videoRef}
+            className="absolute inset-0 w-full h-full object-cover"
+            src="/Videos/2025aftermovie.mp4"
+            loop
+            playsInline
+            controls
+            preload="auto"
+            controlsList="nodownload"
+          />
         </motion.div>
 
       </div>

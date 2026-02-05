@@ -13,9 +13,13 @@ const Hero = () => {
     const video = videoRef.current;
     if (!video) return;
 
-    const handleCanPlay = () => {
+    // Probeer direct te starten
+    video.play().catch(() => {
+      console.log('Autoplay geblokkeerd, wacht op interactie');
+    });
+
+    const handleLoadedData = () => {
       setVideoLoaded(true);
-      // Force play on mobile (autoplay can be blocked)
       video.play().catch(() => {});
     };
 
@@ -23,50 +27,53 @@ const Hero = () => {
       setVideoError(true);
     };
 
-    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('error', handleError);
 
-    // Check if video is already ready
-    const checkReady = setTimeout(() => {
-      if (video.readyState >= 3) {
-        setVideoLoaded(true);
-        video.play().catch(() => {});
-      }
-    }, 100);
+    // Force play na korte delay
+    const forcePlay = setTimeout(() => {
+      setVideoLoaded(true);
+      video.play().catch(() => {});
+    }, 200);
 
     return () => {
-      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('error', handleError);
-      clearTimeout(checkReady);
+      clearTimeout(forcePlay);
     };
   }, []);
 
   return (
     <section className="relative min-h-screen min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
-      {/* Background Image - fallback until video loads */}
-      <div className={`absolute inset-0 min-h-[100dvh] transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-0' : 'opacity-100'}`}>
-        <Image
-          src="/BackgroundMain/Background.jpg"
-          alt="Axelfest achtergrond"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-      </div>
-
       {/* Background Video - works on all devices */}
       <video
         ref={videoRef}
-        className={`absolute inset-0 w-full h-full min-h-[100dvh] object-cover transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-100' : 'opacity-0'}`}
+        className="absolute inset-0 w-full h-full min-h-[100dvh] object-cover"
         autoPlay
         muted
         loop
         playsInline
         preload="auto"
+        style={{
+          backgroundColor: '#000',
+        }}
       >
         <source src="/Videos/2025aftermovie.mp4" type="video/mp4" />
       </video>
+
+      {/* Background Image - fallback alleen bij error */}
+      {videoError && (
+        <div className="absolute inset-0 min-h-[100dvh]">
+          <Image
+            src="/BackgroundMain/Background.jpg"
+            alt="Axelfest achtergrond"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+      )}
       
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-linear-to-b from-black/30 via-transparent to-black/80" />
