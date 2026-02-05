@@ -10,4 +10,5 @@ export { default as Location } from "./Location";
 export { default as Footer } from "./Footer";
 export { default as Info } from "./Info";
 export { default as Contact } from "./Contact";
-export { ReCaptchaWrapper } from "./ReCaptchaWrapper";
+export { TurnstileWrapper } from "./TurnstileWrapper";
+export { CookieConsent } from "./CookieConsent";

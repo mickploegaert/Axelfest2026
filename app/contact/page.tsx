@@ -1,4 +1,4 @@
-import { Contact, Footer, ReCaptchaWrapper } from "../components";
+import { Contact, Footer, TurnstileWrapper } from "../components";
 
 export const metadata = {
   title: "Contact - Axelfest",
@@ -8,9 +8,9 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <main>
-      <ReCaptchaWrapper>
+      <TurnstileWrapper>
         <Contact />
-      </ReCaptchaWrapper>
+      </TurnstileWrapper>
       <Footer />
     </main>
   );

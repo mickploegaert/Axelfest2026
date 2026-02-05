@@ -1,16 +1,35 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { HiMail, HiLocationMarker } from 'react-icons/hi';
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+
+// Declare Turnstile types
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: string | HTMLElement, options: {
+        sitekey: string;
+        callback: (token: string) => void;
+        'expired-callback'?: () => void;
+        'error-callback'?: () => void;
+        theme?: 'light' | 'dark' | 'auto';
+        size?: 'normal' | 'compact';
+      }) => string;
+      reset: (widgetId: string) => void;
+      remove: (widgetId: string) => void;
+    };
+  }
+}
 
 export default function Contact() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(null);
+  const turnstileRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,30 +38,74 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  // Initialize Turnstile widget
+  useEffect(() => {
+    const initTurnstile = () => {
+      if (window.turnstile && turnstileRef.current && !turnstileWidgetId) {
+        const widgetId = window.turnstile.render(turnstileRef.current, {
+          sitekey: '0x4AAAAAACYA3Hrl3kkAo2SM',
+          callback: (token: string) => {
+            setTurnstileToken(token);
+          },
+          'expired-callback': () => {
+            setTurnstileToken(null);
+          },
+          'error-callback': () => {
+            setTurnstileToken(null);
+          },
+          theme: 'light',
+          size: 'normal',
+        });
+        setTurnstileWidgetId(widgetId);
+      }
+    };
+
+    // Check if Turnstile is already loaded
+    if (window.turnstile) {
+      initTurnstile();
+    } else {
+      // Wait for Turnstile script to load
+      const checkInterval = setInterval(() => {
+        if (window.turnstile) {
+          clearInterval(checkInterval);
+          initTurnstile();
+        }
+      }, 100);
+
+      return () => clearInterval(checkInterval);
+    }
+  }, [turnstileWidgetId]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    if (!executeRecaptcha) {
-      console.log('reCAPTCHA not loaded');
+    if (!turnstileToken) {
+      console.log('Turnstile verification not complete');
       setIsSubmitting(false);
       return;
     }
 
     try {
-      const token = await executeRecaptcha('contact_form');
-      console.log('reCAPTCHA token:', token);
+      console.log('Turnstile token:', turnstileToken);
       
       // Here you would send the form data along with the token to your backend
-      // The backend would verify the token with Google's API using your secret key
+      // The backend would verify the token with Cloudflare's API using your secret key
+      // POST to https://challenges.cloudflare.com/turnstile/v0/siteverify
       
       // Simulate form submission
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
+      setTurnstileToken(null);
+      
+      // Reset Turnstile widget
+      if (window.turnstile && turnstileWidgetId) {
+        window.turnstile.reset(turnstileWidgetId);
+      }
     } catch (error) {
-      console.error('reCAPTCHA error:', error);
+      console.error('Form submission error:', error);
     }
     
     setIsSubmitting(false);
@@ -214,10 +277,16 @@ export default function Contact() {
                   placeholder="Your Masterpiece Starts Here"
                 />
 
-                {/* reCAPTCHA notice */}
-                <p className="text-white/50 font-outfit text-xs sm:text-sm md:text-base">
-                  This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
-                </p>
+                {/* Cloudflare Turnstile Widget */}
+                <div className="flex flex-col items-start gap-3">
+                  <div 
+                    ref={turnstileRef}
+                    className="cf-turnstile"
+                  />
+                  <p className="text-white/50 font-outfit text-xs sm:text-sm md:text-base">
+                    Beveiligd door Cloudflare Turnstile
+                  </p>
+                </div>
 
                 {/* Submit Button */}
                 <button

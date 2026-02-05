@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Outfit, Anton } from "next/font/google";
 import "./globals.css";
-import { Navbar, LoadingScreen } from "./components";
+import { Navbar, LoadingScreen, CookieConsent } from "./components";
 import ScrollManager from "./components/ScrollManager";
 
 const geistSans = Geist({
@@ -39,7 +39,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="nl">
+      <head>
+        <link rel="preconnect" href="https://challenges.cloudflare.com" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${anton.variable} antialiased`}
       >
@@ -47,6 +50,7 @@ export default function RootLayout({
         <LoadingScreen />
         <Navbar />
         {children}
+        <CookieConsent />
       </body>
     </html>
   );
