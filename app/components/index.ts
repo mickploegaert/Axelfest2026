@@ -3,6 +3,7 @@ export { default as Hero } from "./Hero";
 export { default as LoadingScreen } from "./LoadingScreen";
 export { default as ScrollManager } from "./ScrollManager";
 export { default as WhatIsAxelfest } from "./WhatIsAxelfest";
+export { default as Aftermovie } from "./Aftermovie";
 export { default as Oktoberfest } from "./Oktoberfest";
 export { default as Sponsors } from "./Sponsors";
 export { default as Gallery } from "./Gallery";

@@ -1,64 +1,85 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 const Hero = () => {
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hasPlayed = useRef(false);
+
+  const attemptPlay = useCallback(() => {
+    const video = videoRef.current;
+    if (!video || hasPlayed.current) return;
+    
+    // Zorg dat video muted is (vereist voor autoplay op mobiel)
+    video.muted = true;
+    video.playsInline = true;
+    
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          hasPlayed.current = true;
+        })
+        .catch(() => {
+          // Stil falen, volgende poging zal het opnieuw proberen
+        });
+    }
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const attemptPlay = () => {
-      video.play().catch(() => {
-        console.log('Autoplay geblokkeerd, wacht op interactie');
-      });
-    };
+    const handleCanPlay = () => attemptPlay();
+    const handleLoadedData = () => attemptPlay();
+    const handleError = () => setVideoError(true);
 
-    const handleLoadedData = () => {
-      setVideoLoaded(true);
-      attemptPlay();
-    };
-
-    const handleCanPlay = () => {
-      setVideoLoaded(true);
-      attemptPlay();
-    };
-
-    const handleError = () => {
-      setVideoError(true);
-    };
-
-    // Als video al geladen is
-    if (video.readyState >= 3) {
-      setVideoLoaded(true);
-      attemptPlay();
-    }
-
+    // Luister naar video events
     video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('error', handleError);
 
-    // Probeer meerdere keren te spelen
-    const intervals = [
+    // Als video al klaar is
+    if (video.readyState >= 2) {
+      attemptPlay();
+    }
+
+    // Meerdere pogingen om te starten (na loading screen)
+    const timers = [
       setTimeout(attemptPlay, 100),
       setTimeout(attemptPlay, 500),
-      setTimeout(attemptPlay, 1000),
-      setTimeout(attemptPlay, 2000),
-      setTimeout(attemptPlay, 4000),
+      setTimeout(attemptPlay, 1500),
+      setTimeout(attemptPlay, 3000),
+      setTimeout(attemptPlay, 4500),
     ];
+
+    // Fallback: start bij eerste user interactie
+    const handleInteraction = () => {
+      attemptPlay();
+      if (hasPlayed.current) {
+        document.removeEventListener('touchstart', handleInteraction);
+        document.removeEventListener('click', handleInteraction);
+        document.removeEventListener('scroll', handleInteraction);
+      }
+    };
+
+    document.addEventListener('touchstart', handleInteraction, { passive: true });
+    document.addEventListener('click', handleInteraction);
+    document.addEventListener('scroll', handleInteraction, { passive: true });
 
     return () => {
       video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('error', handleError);
-      intervals.forEach(clearTimeout);
+      document.removeEventListener('touchstart', handleInteraction);
+      document.removeEventListener('click', handleInteraction);
+      document.removeEventListener('scroll', handleInteraction);
+      timers.forEach(clearTimeout);
     };
-  }, []);
+  }, [attemptPlay]);
 
   return (
     <section className="relative h-screen min-h-[100dvh] flex items-center justify-center overflow-hidden">

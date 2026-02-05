@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Hero, WhatIsAxelfest, Oktoberfest, Sponsors, Gallery, Location, Footer } from "./components";
+import { Hero, WhatIsAxelfest, Aftermovie, Oktoberfest, Sponsors, Gallery, Location, Footer } from "./components";
 
 export default function Home() {
   // Ensure page always starts at the top on load/reload
@@ -21,6 +21,7 @@ export default function Home() {
     <>
       <Hero />
       <WhatIsAxelfest />
+      <Aftermovie />
       <Oktoberfest />
       <Sponsors />
       <Gallery />
