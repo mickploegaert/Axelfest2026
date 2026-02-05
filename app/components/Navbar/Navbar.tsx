@@ -14,6 +14,7 @@ const navItems: NavItem[] = [
   { label: "Line-up", href: "/lineup" },
   { label: "Timetable", href: "/timetable" },
   { label: "Info", href: "/info" },
+  { label: "Sponsors", href: "/sponsors" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -22,7 +23,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="absolute top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/50 to-transparent">
+      <nav className="absolute top-0 left-0 right-0 z-50 bg-linear-to-b from-black/50 to-transparent">
         <div className="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-20 sm:h-24 md:h-28 relative">
             {/* Logo + Datum/Locatie - Links */}
@@ -40,7 +41,7 @@ const Navbar = () => {
               </Link>
               
               {/* Divider */}
-              <div className="hidden sm:block w-[1px] h-8 sm:h-10 md:h-12 bg-white/40" />
+              <div className="hidden sm:block w-px h-8 sm:h-10 md:h-12 bg-white/40" />
               
               {/* Datum & Locatie */}
               <div className="hidden sm:flex flex-col font-outfit text-white leading-snug">

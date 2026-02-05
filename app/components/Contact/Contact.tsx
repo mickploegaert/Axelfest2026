@@ -96,7 +96,7 @@ export default function Contact() {
             {/* Contact Info */}
             <div className="space-y-4 sm:space-y-6 md:space-y-8 mb-8 sm:mb-14">
               <div className="flex items-center gap-4 sm:gap-6">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center shrink-0">
                   <HiMail className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white" />
                 </div>
                 <div>
@@ -108,7 +108,7 @@ export default function Contact() {
               </div>
               
               <div className="flex items-center gap-4 sm:gap-6">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center shrink-0">
                   <HiLocationMarker className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white" />
                 </div>
                 <div>

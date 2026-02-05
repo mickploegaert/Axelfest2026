@@ -244,7 +244,7 @@ function renderContent(blocks: ContentBlock[]) {
         return (
           <div key={idx} className="bg-red-500/10 border-l-4 border-red-400 p-4 mb-3 rounded-r-lg">
             <p className="text-white/90 font-outfit flex items-center gap-2">
-              <HiExclamation className="w-5 h-5 text-red-400 flex-shrink-0" />
+              <HiExclamation className="w-5 h-5 text-red-400 shrink-0" />
               {block.content as string}
             </p>
           </div>
@@ -253,7 +253,7 @@ function renderContent(blocks: ContentBlock[]) {
         return (
           <div key={idx} className="bg-green-500/10 border-l-4 border-green-400 p-4 mb-3 rounded-r-lg">
             <p className="text-white/90 font-outfit flex items-center gap-2">
-              <HiInformationCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+              <HiInformationCircle className="w-5 h-5 text-green-400 shrink-0" />
               {block.content as string}
             </p>
           </div>
@@ -362,7 +362,7 @@ export default function Info() {
                     <motion.div
                       animate={{ scale: openSection === section.id ? 1.1 : 1 }}
                       transition={{ duration: 0.2 }}
-                      className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0"
+                      className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0"
                     >
                       <section.icon className="w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" />
                     </motion.div>
@@ -371,7 +371,7 @@ export default function Info() {
                     </h3>
                   </div>
                   <motion.div 
-                    className="text-white ml-2 sm:ml-3 flex-shrink-0"
+                    className="text-white ml-2 sm:ml-3 shrink-0"
                     animate={{ rotate: openSection === section.id ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
                   >
@@ -435,7 +435,7 @@ export default function Info() {
                       {faq.question}
                     </h3>
                     <motion.div 
-                      className="text-white flex-shrink-0"
+                      className="text-white shrink-0"
                       animate={{ rotate: openFaq === faq.id ? 180 : 0 }}
                       transition={{ duration: 0.3 }}
                     >

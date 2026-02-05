@@ -16,6 +16,31 @@ const sponsors = [
     logo: '/Sponsors/yara/yara.png', 
     url: 'https://www.yara.nl/',
   },
+  { 
+    name: 'Sonny', 
+    logo: '/sonny/image.png', 
+    url: 'https://yggdrasilservice.nl/',
+  },
+  { 
+    name: 'Neels', 
+    logo: '/Sponsors/neels/autogarageneels.png', 
+    url: 'https://www.facebook.com/autogarage.neels?locale=nl_NL',
+  },
+  { 
+    name: 'Hamelink Elektro', 
+    logo: '/Sponsors/hamelink/elektro.png', 
+    url: 'https://hamelink-elektro.webnode.nl/',
+  },
+  { 
+    name: 'Bouwbedrijf Neels', 
+    logo: '/Sponsors/Bouwneels/Bouw.png', 
+    url: 'https://www.facebook.com/BouwbedrijfNeels/?locale=nl_NL',
+  },
+  { 
+    name: 'RHTS', 
+    logo: '/Sponsors/Rick/rhts.png', 
+    url: 'https://www.rhts-online.nl/',
+  },
 ];
 
 // Duplicate sponsors for seamless infinite scroll
@@ -70,7 +95,7 @@ export default function Sponsors() {
                   href={sponsor.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-shrink-0 transition-transform duration-300 hover:scale-110 [&:hover~*]:![animation-play-state:paused] hover:[animation-play-state:paused]"
+                  className="shrink-0 transition-transform duration-300 hover:scale-110"
                   onMouseEnter={(e) => {
                     const track = e.currentTarget.parentElement;
                     if (track) track.style.animationPlayState = 'paused';

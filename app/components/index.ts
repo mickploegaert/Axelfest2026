@@ -1,7 +1,9 @@
 export { default as Navbar } from "./Navbar";
 export { default as Hero } from "./Hero";
 export { default as LoadingScreen } from "./LoadingScreen";
+export { default as ScrollManager } from "./ScrollManager";
 export { default as WhatIsAxelfest } from "./WhatIsAxelfest";
+export { default as Oktoberfest } from "./Oktoberfest";
 export { default as Sponsors } from "./Sponsors";
 export { default as Gallery } from "./Gallery";
 export { default as Location } from "./Location";

@@ -81,7 +81,7 @@ export default function WhatIsAxelfest() {
     >
       {/* Loading Bar - bovenaan */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 z-[100] h-1.5 bg-white"
+        className="fixed top-0 left-0 right-0 z-100 h-1.5 bg-white"
         style={{
           scaleX: loadingProgress,
           transformOrigin: 'left',

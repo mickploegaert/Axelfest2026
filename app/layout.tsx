@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Outfit, Anton } from "next/font/google";
 import "./globals.css";
 import { Navbar, LoadingScreen } from "./components";
+import ScrollManager from "./components/ScrollManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${anton.variable} antialiased`}
       >
+        <ScrollManager />
         <LoadingScreen />
         <Navbar />
         {children}
