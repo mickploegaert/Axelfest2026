@@ -3,21 +3,21 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-// Generate particles once outside component to avoid Math.random issues
-const particles = Array.from({ length: 25 }, (_, i) => ({
+// Generate particles once outside component - reduced for mobile performance
+const particles = Array.from({ length: 12 }, (_, i) => ({
   id: i,
-  size: Math.random() * 3 + 1,
+  size: Math.random() * 2 + 1,
   x: Math.random() * 100,
   y: Math.random() * 100,
-  duration: Math.random() * 3 + 2,
-  delay: Math.random() * 2,
+  duration: Math.random() * 3 + 3,
+  delay: Math.random() * 1.5,
 }));
 
-// Sound wave bars for the traveling wave
-const waveBars = Array.from({ length: 40 }, (_, i) => ({
+// Sound wave bars for the traveling wave - minder bars op mobile
+const waveBars = Array.from({ length: 20 }, (_, i) => ({
   id: i,
-  height: Math.sin(i * 0.5) * 30 + 40 + Math.random() * 20,
-  delay: i * 0.02,
+  height: Math.sin(i * 0.5) * 20 + 30 + Math.random() * 15,
+  delay: i * 0.03,
 }));
 
 const LoadingScreen = () => {
@@ -118,10 +118,10 @@ const LoadingScreen = () => {
         ))}
       </div>
 
-      {/* Traveling Sound Wave */}
+      {/* Traveling Sound Wave - smaller on mobile */}
       {!waveComplete && (
         <div 
-          className="absolute top-0 bottom-0 flex items-center gap-0.5 pointer-events-none z-50"
+          className="absolute top-0 bottom-0 flex items-center gap-[2px] sm:gap-0.5 pointer-events-none z-50"
           style={{
             left: `${wavePosition}%`,
             transform: 'translateX(-50%)',
@@ -132,8 +132,8 @@ const LoadingScreen = () => {
               key={bar.id}
               className="bg-white/80 rounded-full animate-wave-pulse"
               style={{
-                width: '3px',
-                height: `${bar.height}px`,
+                width: '2px',
+                height: `${bar.height * 0.7}px`,
                 animationDelay: `${bar.delay}s`,
               }}
             />
@@ -158,9 +158,9 @@ const LoadingScreen = () => {
                 <Image
                   src="/AxelfestLogos/axelfest.png"
                   alt=""
-                  width={600}
-                  height={600}
-                  className="w-64 sm:w-80 md:w-96 lg:w-[28rem] h-auto object-contain"
+                  width={400}
+                  height={400}
+                  className="w-48 sm:w-64 md:w-80 lg:w-96 h-auto object-contain"
                   priority
                 />
               </div>
@@ -173,9 +173,9 @@ const LoadingScreen = () => {
                 <Image
                   src="/AxelfestLogos/axelfest.png"
                   alt=""
-                  width={600}
-                  height={600}
-                  className="w-64 sm:w-80 md:w-96 lg:w-[28rem] h-auto object-contain"
+                  width={400}
+                  height={400}
+                  className="w-48 sm:w-64 md:w-80 lg:w-96 h-auto object-contain"
                   priority
                 />
               </div>
@@ -191,9 +191,9 @@ const LoadingScreen = () => {
             <Image
               src="/AxelfestLogos/axelfest.png"
               alt="Axelfest Logo"
-              width={600}
-              height={600}
-              className="w-64 sm:w-80 md:w-96 lg:w-[28rem] h-auto object-contain drop-shadow-2xl"
+              width={400}
+              height={400}
+              className="w-48 sm:w-64 md:w-80 lg:w-96 h-auto object-contain drop-shadow-2xl"
               priority
             />
           </div>
@@ -245,8 +245,8 @@ const LoadingScreen = () => {
         
         @keyframes wave-pulse {
           0%, 100% {
-            transform: scaleY(0.5);
-            opacity: 0.5;
+            transform: scaleY(0.6);
+            opacity: 0.6;
           }
           50% {
             transform: scaleY(1);
@@ -254,43 +254,35 @@ const LoadingScreen = () => {
           }
         }
         .animate-wave-pulse {
-          animation: wave-pulse 0.4s ease-in-out infinite;
+          animation: wave-pulse 0.5s ease-in-out infinite;
         }
         
         @keyframes glitch-1 {
           0%, 100% {
-            transform: translate(-8px, 0);
-          }
-          25% {
-            transform: translate(8px, -2px);
+            transform: translate(-4px, 0);
+            opacity: 0.6;
           }
           50% {
-            transform: translate(-4px, 2px);
-          }
-          75% {
             transform: translate(4px, -1px);
+            opacity: 0.8;
           }
         }
         .animate-glitch-1 {
-          animation: glitch-1 0.2s linear infinite;
+          animation: glitch-1 0.15s ease-in-out infinite;
         }
         
         @keyframes glitch-2 {
           0%, 100% {
-            transform: translate(8px, 0);
-          }
-          25% {
-            transform: translate(-8px, 2px);
+            transform: translate(4px, 0);
+            opacity: 0.6;
           }
           50% {
-            transform: translate(4px, -2px);
-          }
-          75% {
             transform: translate(-4px, 1px);
+            opacity: 0.8;
           }
         }
         .animate-glitch-2 {
-          animation: glitch-2 0.2s linear infinite;
+          animation: glitch-2 0.15s ease-in-out infinite;
         }
       `}</style>
     </div>

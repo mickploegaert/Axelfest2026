@@ -15,6 +15,8 @@ const Hero = () => {
 
     const handleCanPlay = () => {
       setVideoLoaded(true);
+      // Force play on mobile (autoplay can be blocked)
+      video.play().catch(() => {});
     };
 
     const handleError = () => {
@@ -24,12 +26,13 @@ const Hero = () => {
     video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('error', handleError);
 
-    // Check if video is already ready (use timeout to avoid sync setState)
+    // Check if video is already ready
     const checkReady = setTimeout(() => {
       if (video.readyState >= 3) {
         setVideoLoaded(true);
+        video.play().catch(() => {});
       }
-    }, 0);
+    }, 100);
 
     return () => {
       video.removeEventListener('canplay', handleCanPlay);
@@ -40,7 +43,7 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
-      {/* Fallback Background Image - altijd zichtbaar tot video laadt */}
+      {/* Background Image - fallback until video loads */}
       <div className={`absolute inset-0 min-h-[100dvh] transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-0' : 'opacity-100'}`}>
         <Image
           src="/BackgroundMain/Background.jpg"
@@ -52,10 +55,10 @@ const Hero = () => {
         />
       </div>
 
-      {/* Background Video - geoptimaliseerd voor sneller laden */}
+      {/* Background Video - works on all devices */}
       <video
         ref={videoRef}
-        className={`absolute inset-0 w-full h-full min-h-screen min-h-[100dvh] object-cover transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-0 w-full h-full min-h-[100dvh] object-cover transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-100' : 'opacity-0'}`}
         autoPlay
         muted
         loop

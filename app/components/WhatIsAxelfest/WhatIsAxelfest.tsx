@@ -25,11 +25,27 @@ export default function WhatIsAxelfest() {
   });
   
   // Loading bar progress (0 to 1) - hide after video phase
-  const loadingProgress = useTransform(scrollYProgress, [0.2, 0.35], [0, 1]);
-  const loadingBarOpacity = useTransform(scrollYProgress, [0.6, 0.7], [1, 0]);
+  const loadingProgress = useTransform(scrollYProgress, [0.15, 0.3], [0, 1]);
+  const loadingBarOpacity = useTransform(scrollYProgress, [0.55, 0.65], [1, 0]);
   
   // Video opacity - fade in tijdens scrollen
-  const videoOpacity = useTransform(scrollYProgress, [0.35, 0.55], [0, 1]);
+  const videoOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
+  
+  // Play/pause video based on visibility
+  useEffect(() => {
+    const unsubscribe = videoOpacity.on('change', (opacity) => {
+      const video = videoRef.current;
+      if (!video) return;
+      
+      if (opacity > 0.5) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+    
+    return () => unsubscribe();
+  }, [videoOpacity]);
   
   const [displayedText, setDisplayedText] = useState('');
   const fullText = 'De ultieme festival ervaring in het hart van Zeeland. Waar muziek, cultuur en vriendschap samenkomen op het iconische Hofplein in Axel. Twee dagen vol onvergetelijke momenten, legendarische artiesten en een sfeer die je nergens anders vindt. Dit is meer dan een festival dit is AXELFEST.';
@@ -75,7 +91,7 @@ export default function WhatIsAxelfest() {
   return (
     <section 
       ref={containerRef} 
-      className="relative h-[300vh] sm:h-[350vh] md:h-[400vh] lg:h-[450vh]"
+      className="relative h-[250vh] sm:h-[300vh] md:h-[350vh] lg:h-[400vh]"
     >
       {/* Loading Bar - bovenaan */}
       <motion.div 
@@ -207,24 +223,26 @@ export default function WhatIsAxelfest() {
 
         {/* Video Overlay - vult precies de sectie */}
         <motion.div 
-          className="absolute inset-0 z-[60] flex items-center justify-center bg-black"
+          className="absolute inset-0 z-[60]"
           style={{ opacity: videoOpacity }}
         >
-          {/* Video container met vaste aspect ratio voor zichtbare controls */}
-          <div className="relative w-full h-full max-h-[calc(100%-60px)] sm:max-h-[calc(100%-48px)] flex items-center justify-center">
+          {/* Video container - full screen cover op mobile, contain op desktop */}
+          <div className="relative w-full h-full flex items-center justify-center bg-black">
             <video
               ref={videoRef}
               style={{ pointerEvents: 'all' }}
-              className="w-full h-full max-w-full max-h-full object-contain bg-black cursor-pointer"
+              className="w-full h-full object-cover sm:object-contain"
               src="/Videos/2025aftermovie.mp4"
+              autoPlay
+              muted
               loop
               playsInline
               controls
+              preload="auto"
               controlsList="nodownload"
+              poster="/BackgroundMain/Background.jpg"
             />
           </div>
-          {/* Spacer voor controls zichtbaarheid */}
-          <div className="absolute bottom-0 left-0 right-0 h-[60px] sm:h-[48px] bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
         </motion.div>
 
       </div>
