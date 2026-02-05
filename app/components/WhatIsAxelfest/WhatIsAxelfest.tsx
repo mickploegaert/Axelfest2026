@@ -24,12 +24,14 @@ export default function WhatIsAxelfest() {
     offset: ["start start", "end start"]
   });
   
-  // Loading bar progress (0 to 1) - hide after video phase
-  const loadingProgress = useTransform(scrollYProgress, [0.15, 0.3], [0, 1]);
-  const loadingBarOpacity = useTransform(scrollYProgress, [0.55, 0.65], [1, 0]);
+  // Loading bar progress voor video groei - blijft langer zichtbaar
+  const loadingProgress = useTransform(scrollYProgress, [0.5, 0.85], [0, 1]);
+  const loadingBarOpacity = useTransform(scrollYProgress, [0.85, 0.95], [1, 0]);
   
-  // Video opacity - pas tonen als volledig gescrolld (later in scroll)
-  const videoOpacity = useTransform(scrollYProgress, [0.6, 0.75], [0, 1]);
+  // Video circle expansion - start klein in center, groei naar full screen
+  // Start met cirkel na text fase, eindig bij 80% scroll
+  const videoScale = useTransform(scrollYProgress, [0.5, 0.85], [0, 150]);
+  const videoOpacity = useTransform(scrollYProgress, [0.5, 0.55], [0, 1]);
   
   const [displayedText, setDisplayedText] = useState('');
   const fullText = 'De ultieme festival ervaring in het hart van Zeeland. Waar muziek, cultuur en vriendschap samenkomen op het iconische Hofplein in Axel. Twee dagen vol onvergetelijke momenten, legendarische artiesten en een sfeer die je nergens anders vindt. Dit is meer dan een festival dit is AXELFEST.';
@@ -205,21 +207,28 @@ export default function WhatIsAxelfest() {
           }}
         />
 
-        {/* Video Overlay - vult hele sectie, met play button */}
+        {/* Video Overlay - groeit vanuit cirkel naar full screen */}
         <motion.div 
-          className="absolute inset-0 z-[60]"
+          className="absolute inset-0 z-[60] bg-black"
           style={{ opacity: videoOpacity }}
         >
-          <video
-            ref={videoRef}
-            className="w-full h-full object-cover"
-            src="/Videos/2025aftermovie.mp4"
-            loop
-            playsInline
-            controls
-            preload="metadata"
-            controlsList="nodownload"
-          />
+          <div className="relative w-full h-full flex items-center justify-center">
+            <motion.video
+              ref={videoRef}
+              className="absolute inset-0 w-full h-full object-cover"
+              src="/Videos/2025aftermovie.mp4"
+              loop
+              playsInline
+              controls
+              preload="metadata"
+              controlsList="nodownload"
+              style={{
+                clipPath: useTransform(videoScale, (scale) => 
+                  scale >= 100 ? 'none' : `circle(${scale}vmax at 50% 50%)`
+                )
+              }}
+            />
+          </div>
         </motion.div>
 
       </div>
