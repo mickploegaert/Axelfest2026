@@ -28,8 +28,8 @@ export default function WhatIsAxelfest() {
   const loadingProgress = useTransform(scrollYProgress, [0.15, 0.3], [0, 1]);
   const loadingBarOpacity = useTransform(scrollYProgress, [0.55, 0.65], [1, 0]);
   
-  // Video opacity - fade in tijdens scrollen
-  const videoOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
+  // Video opacity - pas tonen als volledig gescrolld (later in scroll)
+  const videoOpacity = useTransform(scrollYProgress, [0.6, 0.75], [0, 1]);
   
   const [displayedText, setDisplayedText] = useState('');
   const fullText = 'De ultieme festival ervaring in het hart van Zeeland. Waar muziek, cultuur en vriendschap samenkomen op het iconische Hofplein in Axel. Twee dagen vol onvergetelijke momenten, legendarische artiesten en een sfeer die je nergens anders vindt. Dit is meer dan een festival dit is AXELFEST.';
@@ -205,19 +205,19 @@ export default function WhatIsAxelfest() {
           }}
         />
 
-        {/* Video Overlay - vult precies de sectie */}
+        {/* Video Overlay - vult hele sectie, met play button */}
         <motion.div 
-          className="absolute inset-0 z-[60] flex items-center justify-center"
+          className="absolute inset-0 z-[60]"
           style={{ opacity: videoOpacity }}
         >
           <video
             ref={videoRef}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="w-full h-full object-cover"
             src="/Videos/2025aftermovie.mp4"
             loop
             playsInline
             controls
-            preload="auto"
+            preload="metadata"
             controlsList="nodownload"
           />
         </motion.div>

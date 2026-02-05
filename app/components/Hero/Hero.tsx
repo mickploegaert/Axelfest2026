@@ -13,33 +13,50 @@ const Hero = () => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Probeer direct te starten
-    video.play().catch(() => {
-      console.log('Autoplay geblokkeerd, wacht op interactie');
-    });
+    const attemptPlay = () => {
+      video.play().catch(() => {
+        console.log('Autoplay geblokkeerd, wacht op interactie');
+      });
+    };
 
     const handleLoadedData = () => {
       setVideoLoaded(true);
-      video.play().catch(() => {});
+      attemptPlay();
+    };
+
+    const handleCanPlay = () => {
+      setVideoLoaded(true);
+      attemptPlay();
     };
 
     const handleError = () => {
       setVideoError(true);
     };
 
+    // Als video al geladen is
+    if (video.readyState >= 3) {
+      setVideoLoaded(true);
+      attemptPlay();
+    }
+
     video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('error', handleError);
 
-    // Force play na korte delay
-    const forcePlay = setTimeout(() => {
-      setVideoLoaded(true);
-      video.play().catch(() => {});
-    }, 200);
+    // Probeer meerdere keren te spelen
+    const intervals = [
+      setTimeout(attemptPlay, 100),
+      setTimeout(attemptPlay, 500),
+      setTimeout(attemptPlay, 1000),
+      setTimeout(attemptPlay, 2000),
+      setTimeout(attemptPlay, 4000),
+    ];
 
     return () => {
       video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('error', handleError);
-      clearTimeout(forcePlay);
+      intervals.forEach(clearTimeout);
     };
   }, []);
 
