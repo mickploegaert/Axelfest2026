@@ -3,22 +3,28 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-
-// 4 foto's in 2x2 layout
-const photos = [
-  { src: '/Slideshow/fire.jpg', alt: 'Axelfest vuurshow' },
-  { src: '/Slideshow/crew.jpg', alt: 'Festival crew' },
-  { src: '/Slideshow/ginandjuice.jpg', alt: 'Axelfest optreden' },
-  { src: '/Slideshow/lieszhara.jpg', alt: 'Festival sfeer' },
-];
+import { useTranslation } from '../../i18n';
 
 export default function WhatIsAxelfest() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
   const [phase, setPhase] = useState(0);
   
   const [displayedText, setDisplayedText] = useState('');
-  const fullText = 'De ultieme festival ervaring in het hart van Zeeland. Waar muziek, cultuur en vriendschap samenkomen op het iconische Hofplein in Axel. Twee dagen vol onvergetelijke momenten, legendarische artiesten en een sfeer die je nergens anders vindt. Dit is meer dan een festival dit is AXELFEST.';
+  const fullText = t('what.text');
+
+  // Reset typewriter when language changes
+  useEffect(() => {
+    setDisplayedText('');
+  }, [fullText]);
+
+  const photos = [
+    { src: '/Slideshow/fire.jpg', alt: t('what.alt1') },
+    { src: '/Slideshow/crew.jpg', alt: t('what.alt2') },
+    { src: '/Slideshow/ginandjuice.jpg', alt: t('what.alt3') },
+    { src: '/Slideshow/lieszhara.jpg', alt: t('what.alt4') },
+  ];
 
   useEffect(() => {
     if (isInView && phase === 0) {
@@ -150,10 +156,10 @@ export default function WhatIsAxelfest() {
           className="text-center mb-4 sm:mb-6 md:mb-8"
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black text-white uppercase tracking-tight font-phosphate leading-none drop-shadow-2xl">
-            WAT IS
+            {t('what.title1')}
           </h2>
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black text-white uppercase tracking-tight font-phosphate leading-none drop-shadow-2xl">
-            AXELFEST?
+            {t('what.title2')}
           </h2>
         </motion.div>
 

@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { useTranslation } from '../../i18n';
 
 const photos = [
   // Alle unieke foto's uit fotos mapje
@@ -36,6 +37,7 @@ const kenBurnsVariants = [
 ];
 
 export default function Gallery() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -108,7 +110,7 @@ export default function Gallery() {
           className="max-w-7xl mx-auto relative z-10"
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight font-phosphate text-center">
-            SFEERIMPRESSIE
+            {t('gallery.title')}
           </h2>
           <div className="w-16 sm:w-20 md:w-24 h-1 bg-white mx-auto mt-4 sm:mt-6" />
         </motion.div>

@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { HiMail, HiLocationMarker } from 'react-icons/hi';
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
+import { useTranslation } from '../../i18n';
 
 // Declare Turnstile types
 declare global {
@@ -25,6 +26,7 @@ declare global {
 }
 
 export default function Contact() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
@@ -99,7 +101,7 @@ export default function Contact() {
     setError(null);
     
     if (!turnstileToken) {
-      setError('Beveiligingsverificatie niet voltooid. Wacht even en probeer opnieuw.');
+      setError(t('contact.noToken'));
       setIsSubmitting(false);
       return;
     }
@@ -132,7 +134,7 @@ export default function Contact() {
       }
     } catch (err) {
       console.error('Form submission error:', err);
-      setError(err instanceof Error ? err.message : 'Er is een fout opgetreden. Probeer het later opnieuw.');
+      setError(err instanceof Error ? err.message : t('contact.error'));
       
       // Reset Turnstile widget on error
       if (window.turnstile && turnstileWidgetIdRef.current) {
@@ -177,16 +179,16 @@ export default function Contact() {
             className="text-white"
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight font-phosphate mb-4 sm:mb-6 md:mb-10">
-              CONTACT
+              {t('contact.title')}
             </h1>
             <div className="w-24 sm:w-32 md:w-40 h-1 sm:h-2 bg-white mb-8 sm:mb-12" />
             
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-outfit font-light mb-6 sm:mb-10">
-              Heb je een vraag?
+              {t('contact.question')}
             </h2>
             
             <p className="text-white/80 font-outfit text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-14 leading-relaxed">
-              We horen graag van je! Of je nu vragen hebt over tickets, de line-up, of gewoon iets wilt delen - vul het formulier in en we nemen zo snel mogelijk contact met je op.
+              {t('contact.intro')}
             </p>
 
             {/* Contact Info */}
@@ -196,7 +198,7 @@ export default function Contact() {
                   <HiMail className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white" />
                 </div>
                 <div>
-                  <p className="text-white/60 font-outfit text-sm sm:text-base md:text-lg">Email</p>
+                  <p className="text-white/60 font-outfit text-sm sm:text-base md:text-lg">{t('contact.email')}</p>
                   <a href="mailto:info@axelfest.nl" className="text-white font-outfit text-base sm:text-lg md:text-xl hover:underline">
                     info@axelfest.nl
                   </a>
@@ -208,15 +210,15 @@ export default function Contact() {
                   <HiLocationMarker className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white" />
                 </div>
                 <div>
-                  <p className="text-white/60 font-outfit text-sm sm:text-base md:text-lg">Locatie</p>
-                  <p className="text-white font-outfit text-base sm:text-lg md:text-xl">Hofplein, 4571 Axel</p>
+                  <p className="text-white/60 font-outfit text-sm sm:text-base md:text-lg">{t('contact.location')}</p>
+                  <p className="text-white font-outfit text-base sm:text-lg md:text-xl">{t('contact.locationVal')}</p>
                 </div>
               </div>
             </div>
 
             {/* Social Links */}
             <div>
-              <p className="text-white/60 font-outfit text-sm sm:text-base md:text-lg mb-4 sm:mb-6">Volg ons</p>
+              <p className="text-white/60 font-outfit text-sm sm:text-base md:text-lg mb-4 sm:mb-6">{t('contact.follow')}</p>
               <div className="flex items-center gap-4 sm:gap-6">
                 <a
                   href="https://www.instagram.com/axelfest/"
@@ -260,16 +262,16 @@ export default function Contact() {
                   </svg>
                 </div>
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-outfit mb-3 sm:mb-4 md:mb-6">
-                  Bericht verzonden!
+                  {t('contact.sent')}
                 </h3>
                 <p className="text-white/80 font-outfit text-base sm:text-lg md:text-xl mb-4 sm:mb-6 md:mb-8">
-                  Bedankt voor je bericht. We nemen zo snel mogelijk contact met je op.
+                  {t('contact.sentDesc')}
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
                   className="font-outfit font-semibold text-white hover:underline text-base sm:text-lg md:text-xl"
                 >
-                  Nog een bericht sturen
+                  {t('contact.sendAnother')}
                 </button>
               </div>
             ) : (
@@ -283,7 +285,7 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 lg:px-8 lg:py-6 bg-white/10 backdrop-blur-sm border-none rounded-lg sm:rounded-xl text-white placeholder-white/50 font-outfit text-sm sm:text-base md:text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
-                  placeholder="Your Name"
+                  placeholder={t('contact.namePlaceholder')}
                 />
 
                 {/* Email */}
@@ -295,7 +297,7 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 lg:px-8 lg:py-6 bg-white/10 backdrop-blur-sm border-none rounded-lg sm:rounded-xl text-white placeholder-white/50 font-outfit text-sm sm:text-base md:text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
-                  placeholder="Your Email"
+                  placeholder={t('contact.emailPlaceholder')}
                 />
 
                 {/* Message */}
@@ -307,7 +309,7 @@ export default function Contact() {
                   required
                   rows={5}
                   className="w-full px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 lg:px-8 lg:py-6 bg-white/10 backdrop-blur-sm border-none rounded-lg sm:rounded-xl text-white placeholder-white/50 font-outfit text-sm sm:text-base md:text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200 resize-none"
-                  placeholder="Your Masterpiece Starts Here"
+                  placeholder={t('contact.messagePlaceholder')}
                 />
 
                 {/* Cloudflare Turnstile Widget */}
@@ -319,7 +321,7 @@ export default function Contact() {
                   {!turnstileToken && !turnstileLoaded && (
                     <div className="flex items-center gap-2 text-white/50 font-outfit text-xs sm:text-sm">
                       <div className="w-4 h-4 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
-                      Beveiligingsmodule laden...
+                      {t('contact.loading')}
                     </div>
                   )}
                   {turnstileToken && (
@@ -327,7 +329,7 @@ export default function Contact() {
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      Verificatie geslaagd
+                      {t('contact.verified')}
                     </p>
                   )}
                 </div>
@@ -353,10 +355,10 @@ export default function Contact() {
                   {isSubmitting ? (
                     <>
                       <div className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Verzenden...
+                      {t('contact.sending')}
                     </>
                   ) : (
-                    'Send It!'
+                    t('contact.send')
                   )}
                 </button>
               </form>

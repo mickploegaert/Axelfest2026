@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslation } from '../../i18n';
 
 const sponsors = [
   { 
@@ -47,6 +48,7 @@ const sponsors = [
 const duplicatedSponsors = [...sponsors, ...sponsors, ...sponsors, ...sponsors];
 
 export default function Sponsors() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
 
@@ -74,7 +76,7 @@ export default function Sponsors() {
         transition={{ duration: 0.6 }}
         className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight font-phosphate text-center mb-8 sm:mb-12 md:mb-16"
       >
-        SPONSOREN
+        {t('sponsors.title')}
       </motion.h2>
 
       {/* Carousel Container */}
@@ -136,16 +138,16 @@ export default function Sponsors() {
         className="relative z-10 text-center mt-8 sm:mt-10 md:mt-12 px-4"
       >
         <p className="text-white/80 font-outfit text-sm md:text-base mb-2">
-          Interesse om sponsor te worden?{' '}
+          {t('sponsors.interest')}{' '}
           <Link 
             href="mailto:info@axelfest.nl"
             className="underline hover:text-white transition-colors"
           >
-            Neem contact op
+            {t('sponsors.cta')}
           </Link>
         </p>
         <p className="text-white/60 font-outfit text-xs md:text-sm italic">
-          Bedankt aan al onze sponsoren voor hun steun aan Axelfest 2026
+          {t('sponsors.thanks')}
         </p>
       </motion.div>
       

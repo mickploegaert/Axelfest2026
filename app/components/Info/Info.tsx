@@ -23,6 +23,7 @@ import {
   HiBan
 } from 'react-icons/hi';
 import { MdLocalParking, MdDirectionsBike, MdEventSeat, MdRestaurant, MdLocalBar } from 'react-icons/md';
+import { useTranslation, type TranslationKey } from '../../i18n';
 
 interface ContentBlock {
   type: 'text' | 'title' | 'list' | 'warning' | 'tip';
@@ -36,182 +37,182 @@ interface InfoSectionData {
   content: ContentBlock[];
 }
 
-const infoSections: InfoSectionData[] = [
+const getInfoSections = (t: (key: TranslationKey) => string): InfoSectionData[] => [
   {
     id: 'locatie',
     icon: HiLocationMarker,
-    title: 'Locatie',
+    title: t('info.locatie.title'),
     content: [
-      { type: 'text', content: 'Axelfest wordt gehouden op het Hofplein in Axel.' },
+      { type: 'text', content: t('info.locatie.text1') },
     ],
   },
   {
     id: 'tickets',
     icon: HiTicket,
-    title: 'Tickets',
+    title: t('info.tickets.title'),
     content: [
-      { type: 'text', content: 'Tickets zijn online te koop via onze ticketpartner. Zorg ervoor dat je tickets koopt via het officiële kanaal om teleurstellingen te voorkomen.' },
+      { type: 'text', content: t('info.tickets.text1') },
     ],
   },
   {
     id: 'openingstijden',
     icon: HiClock,
-    title: 'Openingstijden',
+    title: t('info.openingstijden.title'),
     content: [
-      { type: 'text', content: 'De precieze openingstijden worden later bekend gemaakt. Houd onze social media kanalen in de gaten voor updates.' },
+      { type: 'text', content: t('info.openingstijden.text1') },
     ],
   },
   {
     id: 'consumpties',
     icon: HiCash,
-    title: 'Consumpties',
+    title: t('info.consumpties.title'),
     content: [
-      { type: 'text', content: 'Op het festival kun je betalen met zowel pin als contant geld bij alle bars en foodtrucks.' },
+      { type: 'text', content: t('info.consumpties.text1') },
     ],
   },
   {
     id: 'eten-drinken',
     icon: MdRestaurant,
-    title: 'Eten en Drinken',
+    title: t('info.etenDrinken.title'),
     content: [
-      { type: 'text', content: 'Er zijn verschillende foodtrucks en bars aanwezig op het terrein waar je terecht kunt voor eten en drinken.' },
-      { type: 'warning', content: 'Het is niet toegestaan om eigen eten en drinken mee te nemen naar het festival.' },
+      { type: 'text', content: t('info.etenDrinken.text1') },
+      { type: 'warning', content: t('info.etenDrinken.warning1') },
     ],
   },
   {
     id: 'crowdsurfen',
     icon: HiBan,
-    title: 'Crowdsurfen',
+    title: t('info.crowdsurfen.title'),
     content: [
-      { type: 'warning', content: 'Crowdsurfen is niet toegestaan op het festival.' },
-      { type: 'text', content: 'Voor de veiligheid van alle bezoekers is crowdsurfen verboden. De organisatie kan je bij overtreding van het terrein verwijderen.' },
+      { type: 'warning', content: t('info.crowdsurfen.warning1') },
+      { type: 'text', content: t('info.crowdsurfen.text1') },
     ],
   },
   {
     id: 'alcohol',
     icon: MdLocalBar,
-    title: 'Alcohol',
+    title: t('info.alcohol.title'),
     content: [
-      { type: 'text', content: 'Alcohol is te verkrijgen op het festival voor bezoekers van 18 jaar en ouder.' },
-      { type: 'warning', content: 'Er wordt bij twijfel om legitimatie gevraagd.' },
+      { type: 'text', content: t('info.alcohol.text1') },
+      { type: 'warning', content: t('info.alcohol.warning1') },
     ],
   },
   {
     id: 'parkeren',
     icon: MdLocalParking,
-    title: 'Parkeren',
+    title: t('info.parkeren.title'),
     content: [
-      { type: 'text', content: 'Er zijn voldoende parkeermogelijkheden rondom het festivalterrein. Volg de bewegwijzering ter plaatse.' },
+      { type: 'text', content: t('info.parkeren.text1') },
     ],
   },
   {
     id: 'fietsenstalling',
     icon: MdDirectionsBike,
-    title: 'Fietsenstalling',
+    title: t('info.fietsenstalling.title'),
     content: [
-      { type: 'text', content: 'Er is een bewaakte fietsenstalling aanwezig bij het festival.' },
-      { type: 'tip', content: 'Gebruik altijd een goed slot voor extra zekerheid.' },
+      { type: 'text', content: t('info.fietsenstalling.text1') },
+      { type: 'tip', content: t('info.fietsenstalling.tip1') },
     ],
   },
   {
     id: 'zitmateriaal',
     icon: MdEventSeat,
-    title: 'Zitmateriaal',
+    title: t('info.zitmateriaal.title'),
     content: [
-      { type: 'text', content: 'Je mag eigen zitmateriaal zoals campingstoelen en picknickkleden meenemen naar het festival.' },
-      { type: 'tip', content: 'Let erop dat je andere bezoekers niet hindert met je opstelling.' },
+      { type: 'text', content: t('info.zitmateriaal.text1') },
+      { type: 'tip', content: t('info.zitmateriaal.tip1') },
     ],
   },
   {
     id: 'camping',
     icon: HiHome,
-    title: 'Camping',
+    title: t('info.camping.title'),
     content: [
-      { type: 'text', content: 'Er is geen camping beschikbaar op of bij het festivalterrein.' },
-      { type: 'tip', content: 'Check de beschikbare hotels en accommodaties in de omgeving.' },
+      { type: 'text', content: t('info.camping.text1') },
+      { type: 'tip', content: t('info.camping.tip1') },
     ],
   },
   {
     id: 'hotels',
     icon: HiHome,
-    title: 'Hotels',
+    title: t('info.hotels.title'),
     content: [
-      { type: 'text', content: 'In de regio zijn verschillende hotels en accommodaties beschikbaar voor overnachting.' },
-      { type: 'tip', content: 'Reserveer op tijd, want tijdens het festival is het druk in de omgeving!' },
+      { type: 'text', content: t('info.hotels.text1') },
+      { type: 'tip', content: t('info.hotels.tip1') },
     ],
   },
   {
     id: 'gevonden-voorwerpen',
     icon: HiSearch,
-    title: 'Gevonden Voorwerpen',
+    title: t('info.gevonden.title'),
     content: [
-      { type: 'text', content: 'Verloren voorwerpen kunnen tijdens het festival gemeld worden bij de informatiestand op het terrein.' },
-      { type: 'text', content: 'Na afloop van het festival kun je contact opnemen via onze contactpagina of social media.' },
+      { type: 'text', content: t('info.gevonden.text1') },
+      { type: 'text', content: t('info.gevonden.text2') },
     ],
   },
   {
     id: 'kluisjes',
     icon: HiKey,
-    title: 'Kluisjes',
+    title: t('info.kluisjes.title'),
     content: [
-      { type: 'warning', content: 'Er zijn geen kluisjes beschikbaar op het festivalterrein.' },
-      { type: 'tip', content: 'Neem alleen de meest noodzakelijke spullen mee en houd je waardevolle bezittingen goed bij je.' },
+      { type: 'warning', content: t('info.kluisjes.warning1') },
+      { type: 'tip', content: t('info.kluisjes.tip1') },
     ],
   },
   {
     id: 'huisregels',
     icon: HiShieldCheck,
-    title: 'Huisregels (Algemene Voorwaarden)',
+    title: t('info.huisregels.title'),
     content: [
-      { type: 'text', content: 'Door het kopen van een ticket ga je automatisch akkoord met de volgende huisregels:' },
+      { type: 'text', content: t('info.huisregels.text1') },
       { type: 'list', content: [
-        'Toegang is vanaf 14 jaar. Ben je jonger? Dan alleen onder begeleiding van een volwassene',
-        'Drugs zijn ten strengste verboden',
-        'Wapens, vuurwerk en gevaarlijke voorwerpen zijn niet toegestaan',
-        'Agressief gedrag wordt niet getolereerd',
-        'Eigen eten en drinken meenemen is niet toegestaan',
-        'Crowdsurfen is niet toegestaan',
-        'Professionele camera\'s en video-apparatuur zijn alleen toegestaan met voorafgaande toestemming',
-        'Volg te allen tijde de aanwijzingen van security en organisatie op',
-        'De organisatie behoudt zich het recht voor om personen de toegang te weigeren of te verwijderen',
-        'Het festival gaat door bij alle omstandigheden, tenzij noodweer, veiligheid of andere genoodzaakte maatregelen anders vereisen',
-        'Tickets zijn alleen terugbetaalbaar bij aflasting van het festival'
+        t('info.huisregels.rule1'),
+        t('info.huisregels.rule2'),
+        t('info.huisregels.rule3'),
+        t('info.huisregels.rule4'),
+        t('info.huisregels.rule5'),
+        t('info.huisregels.rule6'),
+        t('info.huisregels.rule7'),
+        t('info.huisregels.rule8'),
+        t('info.huisregels.rule9'),
+        t('info.huisregels.rule10'),
+        t('info.huisregels.rule11'),
       ]},
-      { type: 'warning', content: 'Het niet naleven van de huisregels kan leiden tot verwijdering van het terrein zonder restitutie.' },
+      { type: 'warning', content: t('info.huisregels.warning1') },
     ],
   },
 ];
 
-const faqSections = [
+const getFaqSections = (t: (key: TranslationKey) => string) => [
   {
     id: 'faq-1',
-    question: 'Wat is de minimumleeftijd voor Axelfest?',
-    answer: 'Toegang is vanaf 14 jaar. Ben je jonger dan 14? Dan mag je alleen naar binnen onder begeleiding van een volwassene. Bij twijfel wordt om legitimatie gevraagd.'
+    question: t('info.faq1.q'),
+    answer: t('info.faq1.a')
   },
   {
     id: 'faq-2',
-    question: 'Kan ik mijn ticket terugbetaald krijgen?',
-    answer: 'Tickets zijn alleen terugbetaalbaar bij aflasting van het festival. Het festival gaat door bij alle omstandigheden, tenzij noodweer, veiligheid of andere maatregelen anders vereisen.'
+    question: t('info.faq2.q'),
+    answer: t('info.faq2.a')
   },
   {
     id: 'faq-3',
-    question: 'Wat moet ik meenemen naar het festival?',
-    answer: 'Zorg voor je ticket (digitaal of print), legitimatie, geld/pinpas, en eventueel een campingstoel. Geen eigen eten of drinken.'
+    question: t('info.faq3.q'),
+    answer: t('info.faq3.a')
   },
   {
     id: 'faq-4',
-    question: 'Is er medische hulp beschikbaar?',
-    answer: 'Ja, er is EHBO aanwezig op het festivalterrein. Meld je bij de informatiestand als je hulp nodig hebt.'
+    question: t('info.faq4.q'),
+    answer: t('info.faq4.a')
   },
   {
     id: 'faq-5',
-    question: 'Kan ik mijn fiets veilig parkeren?',
-    answer: 'Ja, er is een bewaakte fietsenstalling bij het terrein. Gebruik wel altijd een goed slot.'
+    question: t('info.faq5.q'),
+    answer: t('info.faq5.a')
   },
   {
     id: 'faq-6',
-    question: 'Mag ik foto\'s en video\'s maken?',
-    answer: 'Ja, met je telefoon mag je foto\'s en video\'s maken voor eigen gebruik. Professionele apparatuur alleen met toestemming.'
+    question: t('info.faq6.q'),
+    answer: t('info.faq6.a')
   },
 ];
 
@@ -266,10 +267,14 @@ function renderContent(blocks: ContentBlock[]) {
 }
 
 export default function Info() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.1 });
   const [openSection, setOpenSection] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+
+  const infoSections = getInfoSections(t);
+  const faqSections = getFaqSections(t);
 
   const toggleSection = (id: string) => {
     setOpenSection(openSection === id ? null : id);
@@ -304,7 +309,7 @@ export default function Info() {
           className="text-center mb-6 sm:mb-8"
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight font-phosphate">
-            INFORMATIE
+            {t('info.title')}
           </h2>
           <div className="w-16 sm:w-20 md:w-24 h-1 bg-white mx-auto mt-4 sm:mt-6" />
         </motion.div>
@@ -316,7 +321,7 @@ export default function Info() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-white/80 font-outfit text-center max-w-3xl mx-auto mb-8 sm:mb-12 text-sm sm:text-base md:text-lg"
         >
-          Op deze pagina vind je tal van praktische informatie over Axelfest, onderaan vind je de huisregels. Het is belangrijk deze goed door te lezen zodat je weet waar je aan toe bent. We willen er graag een fantastisch evenement van maken. Heb je vragen, tips of andere dringende zaken die je wilt melden, neem dan zeker contact met ons op via onze contactpagina. We staan altijd open voor suggesties.
+          {t('info.intro')}
         </motion.p>
 
         {/* Quick Links */}
@@ -414,7 +419,7 @@ export default function Info() {
           <div className="text-center mb-8">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tight font-phosphate flex items-center justify-center gap-3">
               <HiQuestionMarkCircle className="w-10 h-10" />
-              Veelgestelde Vragen
+              {t('info.faqTitle')}
             </h2>
           </div>
 

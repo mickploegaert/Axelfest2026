@@ -4,22 +4,24 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { HiMenu, HiX } from "react-icons/hi";
+import { useTranslation } from "../../i18n";
 
 interface NavItem {
   label: string;
   href: string;
 }
 
-const navItems: NavItem[] = [
-  { label: "Line-up", href: "/lineup" },
-  { label: "Timetable", href: "/timetable" },
-  { label: "Info", href: "/info" },
-  { label: "Sponsors", href: "/sponsors" },
-  { label: "Contact", href: "/contact" },
-];
-
 const Navbar = () => {
+  const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navItems: NavItem[] = [
+    { label: t('nav.lineup'), href: "/lineup" },
+    { label: t('nav.timetable'), href: "/timetable" },
+    { label: t('nav.info'), href: "/info" },
+    { label: t('nav.sponsors'), href: "/sponsors" },
+    { label: t('nav.contact'), href: "/contact" },
+  ];
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -57,8 +59,8 @@ const Navbar = () => {
               
               {/* Datum & Locatie */}
               <div className="hidden sm:flex flex-col font-outfit text-white leading-snug">
-                <span className="text-base sm:text-lg md:text-xl font-medium tracking-wide">25 & 26 September</span>
-                <span className="text-sm sm:text-base md:text-lg font-light text-white/70">Hofplein Axel</span>
+                <span className="text-base sm:text-lg md:text-xl font-medium tracking-wide">{t('nav.date')}</span>
+                <span className="text-sm sm:text-base md:text-lg font-light text-white/70">{t('nav.location')}</span>
               </div>
             </div>
 
@@ -84,14 +86,14 @@ const Navbar = () => {
                 rel="noopener noreferrer"
                 className="btn-fill font-outfit font-light text-white text-sm sm:text-base md:text-lg lg:text-xl tracking-widest uppercase px-3 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 border border-white/50 bg-transparent transition-all duration-300"
               >
-                Tickets
+                {t('nav.tickets')}
               </a>
               
               {/* Hamburger Menu Button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="lg:hidden flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 text-white hover:bg-white/10 rounded-lg transition-all duration-300 relative z-[60]"
-                aria-label="Toggle menu"
+                aria-label={t('nav.toggleMenu')}
               >
                 {isMenuOpen ? (
                   <HiX className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -115,7 +117,7 @@ const Navbar = () => {
           <button
             onClick={() => setIsMenuOpen(false)}
             className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 text-white hover:bg-white/10 rounded-lg transition-all duration-300"
-            aria-label="Close menu"
+            aria-label={t('nav.closeMenu')}
           >
             <HiX className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
@@ -154,7 +156,7 @@ const Navbar = () => {
               opacity: isMenuOpen ? 1 : 0
             }}
           >
-            Tickets
+            {t('nav.tickets')}
           </a>
           
           {/* Mobile Date/Location */}
@@ -166,8 +168,8 @@ const Navbar = () => {
               opacity: isMenuOpen ? 1 : 0
             }}
           >
-            <span className="text-base sm:text-lg">25 & 26 September 2026</span>
-            <span className="text-sm sm:text-base mt-1">Hofplein Axel</span>
+            <span className="text-base sm:text-lg">{t('nav.dateFull')}</span>
+            <span className="text-sm sm:text-base mt-1">{t('nav.location')}</span>
           </div>
         </div>
       </div>

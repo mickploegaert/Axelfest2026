@@ -4,8 +4,10 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslation } from '../../i18n';
 
 export default function Footer() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
 
@@ -43,13 +45,13 @@ export default function Footer() {
               className="w-32 sm:w-40 md:w-48 h-auto"
             />
             <p className="text-white/80 font-outfit text-xs sm:text-sm leading-relaxed">
-              Muziekfestival in Axel, Zeeuws-Vlaanderen.
+              {t('footer.desc')}
             </p>
             <div className="flex items-center gap-2 text-white">
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z"/>
               </svg>
-              <span className="font-outfit font-semibold text-sm sm:text-base">25-26 September 2026</span>
+              <span className="font-outfit font-semibold text-sm sm:text-base">{t('footer.date')}</span>
             </div>
           </motion.div>
 
@@ -63,7 +65,7 @@ export default function Footer() {
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
               </svg>
-              NAVIGATION
+              {t('footer.nav')}
             </h3>
             <ul className="space-y-2 sm:space-y-3">
               <li>
@@ -111,7 +113,7 @@ export default function Footer() {
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
               </svg>
-              CONTACT
+              {t('footer.contact')}
             </h3>
             <ul className="space-y-3 sm:space-y-4">
               <li>
@@ -149,7 +151,7 @@ export default function Footer() {
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
               </svg>
-              SOCIALS
+              {t('footer.socials')}
             </h3>
             <div className="space-y-3 sm:space-y-4">
               <div className="flex items-center gap-3 sm:gap-4">
@@ -193,7 +195,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="btn-fill inline-block font-outfit font-light text-white text-sm sm:text-base md:text-lg tracking-widest uppercase px-4 py-2 sm:px-6 sm:py-2.5 md:px-8 md:py-3 border border-white/50 bg-transparent transition-all duration-300 text-center"
               >
-                Tickets
+                {t('footer.tickets')}
               </a>
             </div>
           </motion.div>
@@ -215,7 +217,7 @@ export default function Footer() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
-              Privacyverklaring
+              {t('footer.privacy')}
             </Link>
             <button
               onClick={() => {
@@ -229,17 +231,17 @@ export default function Footer() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              Cookie-instellingen
+              {t('footer.cookies')}
             </button>
           </div>
           
           {/* Copyright */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
             <p className="text-white/60 font-outfit text-xs sm:text-sm">
-              © 2026 AXELFEST
+              {t('footer.copyright')}
             </p>
             <p className="text-white/60 font-outfit text-xs sm:text-sm flex items-center gap-2">
-              Website made by <span className="text-white font-semibold">MPloegaert</span>
+              {t('footer.madeBy')} <span className="text-white font-semibold">MPloegaert</span>
               <a 
                 href="https://www.instagram.com/mickploegaert/" 
                 target="_blank" 

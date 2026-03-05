@@ -3,8 +3,10 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
+import { useTranslation } from '../../i18n';
 
 export default function Location() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
 
@@ -33,7 +35,7 @@ export default function Location() {
           className="text-center mb-8 sm:mb-12 md:mb-16"
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight font-phosphate">
-            LOCATIE
+            {t('location.title')}
           </h2>
           <div className="w-16 sm:w-20 md:w-24 h-1 bg-white mx-auto mt-4 sm:mt-6" />
         </motion.div>
@@ -53,7 +55,7 @@ export default function Location() {
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Axelfest Locatie - Hofplein, Axel"
+            title={t('location.mapTitle')}
           />
         </motion.div>
 
@@ -70,11 +72,11 @@ export default function Location() {
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
               </svg>
               <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white font-outfit">
-                Hofplein, Axel
+                {t('location.name')}
               </h3>
             </div>
             <p className="text-white/80 font-outfit text-sm sm:text-base md:text-lg">
-              Het hart van Zeeland, de perfecte festivallocatie
+              {t('location.subtitle')}
             </p>
           </div>
         </motion.div>

@@ -3,8 +3,10 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
+import { useTranslation } from '../../i18n';
 
 export default function Aftermovie() {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
 
@@ -29,7 +31,7 @@ export default function Aftermovie() {
           transition={{ duration: 0.6 }}
           className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white uppercase tracking-tight font-phosphate leading-none drop-shadow-2xl text-center mb-8 sm:mb-10 md:mb-14"
         >
-          AFTERMOVIE 2025
+          {t('aftermovie.title')}
         </motion.h2>
 
         {/* Video Container */}

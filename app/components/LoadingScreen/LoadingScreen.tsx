@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useTranslation } from "../../i18n";
 
 // Generate particles once outside component - reduced for mobile performance
 const particles = Array.from({ length: 12 }, (_, i) => ({
@@ -21,6 +22,7 @@ const waveBars = Array.from({ length: 20 }, (_, i) => ({
 }));
 
 const LoadingScreen = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(true);
   const [shouldSlideUp, setShouldSlideUp] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -205,7 +207,7 @@ const LoadingScreen = () => {
             showLogo ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          25 & 26 September 2026
+          {t('loading.date')}
         </p>
 
         {/* Progress Bar Container */}

@@ -4,9 +4,11 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { HiCalendar, HiClock, HiLocationMarker, HiMusicNote } from 'react-icons/hi';
+import { useTranslation } from '../../i18n';
 
 // Countdown Carousel Component
 function CountdownCarousel({ position }: { position: 'top' | 'bottom' }) {
+  const { t } = useTranslation();
   const [isPaused, setIsPaused] = useState(false);
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
@@ -34,7 +36,7 @@ function CountdownCarousel({ position }: { position: 'top' | 'bottom' }) {
     return () => clearInterval(timer);
   }, []);
 
-  const getMessage = () => `${days} DAGEN ✦ ${hours} UUR ✦ ${minutes} MIN ✦ ${seconds} SEC ✦ `;
+  const getMessage = () => `${days} ${t('okt.days')} ✦ ${hours} ${t('okt.hours')} ✦ ${minutes} ${t('okt.min')} ✦ ${seconds} ${t('okt.sec')} ✦ `;
 
   return (
     <div 
@@ -76,6 +78,7 @@ function CountdownCarousel({ position }: { position: 'top' | 'bottom' }) {
 }
 
 export default function Oktoberfest() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
 
@@ -110,7 +113,7 @@ export default function Oktoberfest() {
         >
           <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/5 backdrop-blur-sm border border-white/20 rounded-full">
             <span className="text-white font-outfit text-sm sm:text-base font-medium tracking-wider uppercase">
-              Thema Avond · Vrijdag 25 September
+              {t('okt.badge')}
             </span>
           </div>
         </motion.div>
@@ -122,7 +125,7 @@ export default function Oktoberfest() {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight font-phosphate text-center mb-4"
         >
-          OKTOBERFEST
+          {t('okt.title')}
         </motion.h2>
 
         {/* Subtitle */}
@@ -132,7 +135,7 @@ export default function Oktoberfest() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg sm:text-xl md:text-2xl text-white/80 font-outfit text-center mb-12 sm:mb-16"
         >
-          De ultieme start van een onvergetelijk festivalweekend
+          {t('okt.subtitle')}
         </motion.p>
 
         {/* Main Content Grid */}
@@ -170,12 +173,12 @@ export default function Oktoberfest() {
                     className="text-center"
                   >
                     <div className="inline-block px-6 py-2 mb-4 border border-white/30 rounded-full">
-                      <span className="text-white/80 font-outfit text-sm tracking-[0.3em] uppercase">Stay Tuned</span>
+                      <span className="text-white/80 font-outfit text-sm tracking-[0.3em] uppercase">{t('okt.stayTuned')}</span>
                     </div>
                     <h3 className="text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight font-phosphate mb-3">
-                      COMING SOON
+                      {t('okt.comingSoon')}
                     </h3>
-                    <p className="text-white/60 font-outfit text-sm sm:text-base">Poster wordt binnenkort onthuld</p>
+                    <p className="text-white/60 font-outfit text-sm sm:text-base">{t('okt.posterReveal')}</p>
                   </motion.div>
                 </div>
               </div>
@@ -188,7 +191,7 @@ export default function Oktoberfest() {
                 className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 z-20"
               >
                 <div className="bg-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-outfit font-bold text-xs sm:text-sm shadow-lg">
-                  SPECIAL EVENT
+                  {t('okt.specialEvent')}
                 </div>
               </motion.div>
             </div>
@@ -204,10 +207,7 @@ export default function Oktoberfest() {
             {/* Blurred info section */}
             <div className="relative">
               {/* Blur overlay - alleen over tekst en info kaarten */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.8, delay: 0.6 }}
+              <div
                 className="absolute inset-[-8px] z-10 flex flex-col items-center justify-center pointer-events-none rounded-3xl overflow-hidden"
               >
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-md" />
@@ -216,21 +216,17 @@ export default function Oktoberfest() {
                     <HiClock className="w-6 h-6 sm:w-7 sm:h-7 text-white/80" />
                   </div>
                   <h3 className="text-white font-phosphate text-3xl sm:text-4xl md:text-5xl tracking-wider uppercase drop-shadow-lg">
-                    COMING SOON
+                    {t('okt.comingSoon')}
                   </h3>
-                  <p className="text-white/60 font-outfit text-sm sm:text-base tracking-wide">Details worden binnenkort onthuld</p>
+                  <p className="text-white/60 font-outfit text-sm sm:text-base tracking-wide">{t('okt.detailsReveal')}</p>
                 </div>
-              </motion.div>
+              </div>
 
             {/* Description Card */}
             <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/10">
-              <p className="text-base sm:text-lg md:text-xl text-white/90 font-outfit leading-relaxed">
-                Op <span className="text-white font-semibold">vrijdagavond 25 september</span> trappen we Axelfest af in stijl met een heuse Oktoberfest editie! 
-                Verwacht Beierse gezelligheid, lederhosen, dirndls en de beste feestmuziek.
-              </p>
+              <p className="text-base sm:text-lg md:text-xl text-white/90 font-outfit leading-relaxed" dangerouslySetInnerHTML={{ __html: t('okt.desc1') }} />
               <p className="mt-4 text-base sm:text-lg text-white/70 font-outfit leading-relaxed">
-                Trek je mooiste Tiroler outfit aan en kom genieten van een avond vol plezier, 
-                dans en de perfecte start van een legendarisch festivalweekend!
+                {t('okt.desc2')}
               </p>
             </div>
 
@@ -247,8 +243,8 @@ export default function Oktoberfest() {
                   <HiCalendar className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-white/50 font-outfit text-sm">Datum</p>
-                  <p className="text-white font-outfit font-semibold">Vrijdag 25 September</p>
+                  <p className="text-white/50 font-outfit text-sm">{t('okt.date')}</p>
+                  <p className="text-white font-outfit font-semibold">{t('okt.dateVal')}</p>
                 </div>
               </motion.div>
 
@@ -263,8 +259,8 @@ export default function Oktoberfest() {
                   <HiClock className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-white/50 font-outfit text-sm">Tijd</p>
-                  <p className="text-white font-outfit font-semibold">Vanaf 18:00 uur</p>
+                  <p className="text-white/50 font-outfit text-sm">{t('okt.time')}</p>
+                  <p className="text-white font-outfit font-semibold">{t('okt.timeVal')}</p>
                 </div>
               </motion.div>
 
@@ -279,8 +275,8 @@ export default function Oktoberfest() {
                   <HiLocationMarker className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-white/50 font-outfit text-sm">Locatie</p>
-                  <p className="text-white font-outfit font-semibold">Hofplein, Axel</p>
+                  <p className="text-white/50 font-outfit text-sm">{t('okt.location')}</p>
+                  <p className="text-white font-outfit font-semibold">{t('okt.locationVal')}</p>
                 </div>
               </motion.div>
 
@@ -295,8 +291,8 @@ export default function Oktoberfest() {
                   <HiMusicNote className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-white/50 font-outfit text-sm">Muziek</p>
-                  <p className="text-white font-outfit font-semibold">Feest & Pop</p>
+                  <p className="text-white/50 font-outfit text-sm">{t('okt.music')}</p>
+                  <p className="text-white font-outfit font-semibold">{t('okt.musicVal')}</p>
                 </div>
               </motion.div>
             </div>
@@ -315,7 +311,7 @@ export default function Oktoberfest() {
                 rel="noopener noreferrer"
                 className="btn-fill group inline-flex items-center gap-2 sm:gap-3 bg-transparent border-2 border-white/50 text-white font-outfit font-semibold text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-full transition-all duration-300"
               >
-                <span>Koop Tickets</span>
+                <span>{t('okt.buyTickets')}</span>
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>

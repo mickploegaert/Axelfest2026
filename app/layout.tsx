@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Outfit, Anton } from "next/font/google";
 import "./globals.css";
 import { Navbar, LoadingScreen, CookieConsent, JsonLd } from "./components";
 import ScrollManager from "./components/ScrollManager";
+import { LanguageProvider } from "./i18n";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -139,6 +140,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${anton.variable} antialiased`}
       >
+        <LanguageProvider>
         {/* JSON-LD Structured Data voor SEO */}
         <JsonLd />
         
@@ -157,6 +159,7 @@ export default function RootLayout({
           {children}
         </main>
         <CookieConsent />
+        </LanguageProvider>
       </body>
     </html>
   );

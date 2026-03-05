@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HiX, HiCheck, HiShieldCheck, HiChartBar, HiSpeakerphone, HiCog, HiExternalLink } from 'react-icons/hi';
+import { useTranslation } from '../../i18n';
 
 interface CookiePreferences {
   necessary: boolean;
@@ -36,6 +37,7 @@ function getInitialPreferences(): CookiePreferences {
 }
 
 export default function CookieConsent() {
+  const { t } = useTranslation();
   const [preferences, setPreferences] = useState<CookiePreferences>(getInitialPreferences);
   const [isVisible, setIsVisible] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -92,32 +94,32 @@ export default function CookieConsent() {
   const cookieCategories = [
     {
       key: 'necessary' as const,
-      title: 'Noodzakelijk',
-      description: 'Essentieel voor websitewerking, beveiliging en Cloudflare Turnstile verificatie.',
+      title: t('cookie.necessary'),
+      description: t('cookie.necessaryDesc'),
       icon: HiShieldCheck,
       color: 'green',
       locked: true,
     },
     {
       key: 'functional' as const,
-      title: 'Functioneel',
-      description: 'Onthoudt je voorkeuren zoals formuliergegevens en instellingen.',
+      title: t('cookie.functional'),
+      description: t('cookie.functionalDesc'),
       icon: HiCog,
       color: 'blue',
       locked: false,
     },
     {
       key: 'analytics' as const,
-      title: 'Analytisch',
-      description: 'Helpt ons de website te verbeteren door anonieme statistieken.',
+      title: t('cookie.analytics'),
+      description: t('cookie.analyticsDesc'),
       icon: HiChartBar,
       color: 'purple',
       locked: false,
     },
     {
       key: 'marketing' as const,
-      title: 'Marketing',
-      description: 'Wordt momenteel niet actief gebruikt op deze website.',
+      title: t('cookie.marketing'),
+      description: t('cookie.marketingDesc'),
       icon: HiSpeakerphone,
       color: 'orange',
       locked: false,
@@ -157,18 +159,18 @@ export default function CookieConsent() {
                         <HiShieldCheck className="w-6 h-6 text-white" />
                       </div>
                       <h3 className="text-xl font-bold text-white font-outfit">
-                        Cookie-instellingen
+                        {t('cookie.title')}
                       </h3>
                     </div>
                     <p className="text-white/80 font-outfit text-sm leading-relaxed mb-3">
-                      Wij gebruiken cookies om je de beste ervaring te bieden. Cloudflare Turnstile beschermt ons contactformulier.
+                      {t('cookie.desc')}
                     </p>
                     <Link 
                       href="/privacy" 
                       className="inline-flex items-center gap-2 text-white font-outfit text-sm font-medium bg-white/10 px-4 py-2 rounded-lg hover:bg-white/20 transition-all border border-white/20"
                     >
                       <HiExternalLink className="w-4 h-4" />
-                      Bekijk onze privacyverklaring
+                      {t('cookie.viewPrivacy')}
                     </Link>
                   </div>
 
@@ -178,19 +180,19 @@ export default function CookieConsent() {
                       onClick={() => setShowSettings(true)}
                       className="text-white/60 font-outfit font-medium px-4 py-2.5 rounded-xl hover:text-white hover:bg-white/10 transition-all text-sm"
                     >
-                      Aanpassen
+                      {t('cookie.customize')}
                     </button>
                     <button
                       onClick={acceptNecessary}
                       className="bg-white/10 text-white font-outfit font-medium px-5 py-2.5 rounded-xl hover:bg-white/20 transition-all text-sm border border-white/20"
                     >
-                      Alleen noodzakelijk
+                      {t('cookie.necessaryOnly')}
                     </button>
                     <button
                       onClick={acceptAll}
                       className="bg-white/90 text-black font-outfit font-semibold px-5 py-2.5 rounded-xl hover:bg-white transition-all text-sm"
                     >
-                      Alles accepteren
+                      {t('cookie.acceptAll')}
                     </button>
                   </div>
                 </div>
@@ -201,19 +203,19 @@ export default function CookieConsent() {
                     onClick={acceptAll}
                     className="flex-1 bg-white/90 text-black font-outfit font-semibold px-5 py-3 rounded-xl hover:bg-white transition-all text-sm"
                   >
-                    Alles accepteren
+                    {t('cookie.acceptAll')}
                   </button>
                   <button
                     onClick={acceptNecessary}
                     className="flex-1 bg-white/10 text-white font-outfit font-medium px-5 py-3 rounded-xl hover:bg-white/20 transition-all text-sm border border-white/20"
                   >
-                    Alleen noodzakelijk
+                    {t('cookie.necessaryOnly')}
                   </button>
                   <button
                     onClick={() => setShowSettings(true)}
                     className="flex-1 sm:flex-none text-white/60 font-outfit font-medium px-5 py-3 rounded-xl hover:text-white hover:bg-white/10 transition-all text-sm"
                   >
-                    Aanpassen
+                    {t('cookie.customize')}
                   </button>
                 </div>
               </div>
@@ -229,7 +231,7 @@ export default function CookieConsent() {
                       <HiCog className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-xl font-bold text-white font-outfit">
-                      Cookie-voorkeuren
+                      {t('cookie.prefsTitle')}
                     </h3>
                   </div>
                   <button
@@ -263,7 +265,7 @@ export default function CookieConsent() {
                               <h4 className="text-white font-outfit font-semibold text-sm">
                                 {category.title}
                                 {category.locked && (
-                                  <span className="ml-2 text-xs text-white/40 font-normal">(verplicht)</span>
+                                  <span className="ml-2 text-xs text-white/40 font-normal">{t('cookie.required')}</span>
                                 )}
                               </h4>
                               <div className={`shrink-0 w-11 h-6 rounded-full flex items-center px-0.5 transition-all duration-200 ${
@@ -292,19 +294,19 @@ export default function CookieConsent() {
                     onClick={saveCustomPreferences}
                     className="flex-1 bg-white/90 text-black font-outfit font-semibold px-6 py-3 rounded-xl hover:bg-white transition-all"
                   >
-                    Voorkeuren opslaan
+                    {t('cookie.save')}
                   </button>
                   <button
                     onClick={acceptAll}
                     className="flex-1 bg-white/10 text-white font-outfit font-medium px-6 py-3 rounded-xl hover:bg-white/20 transition-all border border-white/20"
                   >
-                    Alles accepteren
+                    {t('cookie.acceptAll')}
                   </button>
                 </div>
 
                 <p className="text-white/40 font-outfit text-xs mt-4 text-center">
-                  Je kunt je voorkeuren altijd wijzigen via &ldquo;Cookie-instellingen&rdquo; in de footer of op de{' '}
-                  <Link href="/privacy" className="underline hover:text-white/60">privacypagina</Link>.
+                  {t('cookie.footer')}{' '}
+                  <Link href="/privacy" className="underline hover:text-white/60">{t('cookie.privacyPage')}</Link>.
                 </p>
               </div>
             )}

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HiMail } from 'react-icons/hi';
+import { useTranslation } from '../i18n';
 
 const sponsors = [
   { 
@@ -66,6 +67,7 @@ const itemVariants = {
 };
 
 export default function SponsorsPage() {
+  const { t } = useTranslation();
   return (
     <section className="relative min-h-screen min-h-[100dvh]">
       {/* Background Image */}
@@ -90,7 +92,7 @@ export default function SponsorsPage() {
             className="text-center mb-12 sm:mb-16"
           >
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-white uppercase tracking-tight font-phosphate mb-6">
-              ONZE SPONSORS
+              {t('sponsorsPage.title')}
             </h1>
           </motion.div>
 
@@ -102,12 +104,10 @@ export default function SponsorsPage() {
             className="max-w-3xl mx-auto text-center mb-16 sm:mb-20"
           >
             <p className="text-lg sm:text-xl md:text-2xl text-white/90 font-outfit leading-relaxed mb-6">
-              Axelfest is mede mogelijk gemaakt door de fantastische steun van onze sponsors. 
-              Zonder hen zou dit geweldige festival niet bestaan!
+              {t('sponsorsPage.text1')}
             </p>
             <p className="text-base sm:text-lg text-white/70 font-outfit">
-              Wij zijn ontzettend dankbaar voor hun vertrouwen en bijdrage aan Axelfest. 
-              Samen maken we er een onvergetelijk feest van!
+              {t('sponsorsPage.text2')}
             </p>
           </motion.div>
 
@@ -155,11 +155,10 @@ export default function SponsorsPage() {
             <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-white/30">
               <div className="text-center">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tight font-phosphate mb-6">
-                  WIL JIJ OOK SPONSOR WORDEN?
+                  {t('sponsorsPage.ctaTitle')}
                 </h2>
                 <p className="text-lg sm:text-xl text-white/80 font-outfit mb-8 max-w-2xl mx-auto">
-                  Wil jij ook bijdragen aan het succes van Axelfest en je bedrijf onder de aandacht brengen 
-                  bij duizenden festivalgangers? Neem dan contact met ons op!
+                  {t('sponsorsPage.ctaText')}
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                   <a
@@ -171,7 +170,7 @@ export default function SponsorsPage() {
                   </a>
                 </div>
                 <p className="mt-6 text-white/60 font-outfit text-sm">
-                  Stuur ons een mail en we nemen zo snel mogelijk contact met je op!
+                  {t('sponsorsPage.ctaFooter')}
                 </p>
               </div>
             </div>
