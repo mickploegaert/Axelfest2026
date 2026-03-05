@@ -97,12 +97,12 @@ const Navbar = () => {
             </div>
 
             {/* Tickets Button + Language + Hamburger - Rechts */}
-            <div className="flex items-center justify-end flex-1 gap-2 sm:gap-3">
+            <div className="flex items-center justify-end flex-1 gap-1.5 sm:gap-3">
               {/* Language Flags */}
-              <div className="flex items-center gap-1 sm:gap-1.5">
+              <div className="flex items-center gap-0.5 sm:gap-1.5">
                 <button
                   onClick={() => setLocale('nl')}
-                  className={`flex items-center justify-center w-8 h-6 sm:w-9 sm:h-7 rounded-full border transition-all duration-200 overflow-hidden ${
+                  className={`flex items-center justify-center w-6 h-[18px] sm:w-8 sm:h-6 md:w-9 md:h-7 rounded-full border transition-all duration-200 overflow-hidden ${
                     locale === 'nl'
                       ? 'border-white/70 bg-white/20 ring-1 ring-white/30'
                       : 'border-white/20 bg-black/30 hover:bg-white/10'
@@ -114,7 +114,7 @@ const Navbar = () => {
                 </button>
                 <button
                   onClick={() => setLocale('en')}
-                  className={`flex items-center justify-center w-8 h-6 sm:w-9 sm:h-7 rounded-full border transition-all duration-200 overflow-hidden ${
+                  className={`flex items-center justify-center w-6 h-[18px] sm:w-8 sm:h-6 md:w-9 md:h-7 rounded-full border transition-all duration-200 overflow-hidden ${
                     locale === 'en'
                       ? 'border-white/70 bg-white/20 ring-1 ring-white/30'
                       : 'border-white/20 bg-black/30 hover:bg-white/10'
@@ -130,7 +130,7 @@ const Navbar = () => {
                 href="https://weeztix.shop/rb45ueqd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-fill font-outfit font-light text-white text-sm sm:text-base md:text-lg lg:text-xl tracking-widest uppercase px-3 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 border border-white/50 bg-transparent transition-all duration-300"
+                className="btn-fill font-outfit font-light text-white text-[11px] sm:text-base md:text-lg lg:text-xl tracking-wider sm:tracking-widest uppercase px-2 py-1.5 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 border border-white/50 bg-transparent transition-all duration-300 whitespace-nowrap"
               >
                 {t('nav.tickets')}
               </a>

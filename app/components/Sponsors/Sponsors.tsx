@@ -100,14 +100,6 @@ export default function Sponsors() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="shrink-0 transition-transform duration-300 hover:scale-110"
-                  onMouseEnter={(e) => {
-                    const track = e.currentTarget.closest('.sponsor-scroll') as HTMLElement;
-                    if (track) track.style.animationPlayState = 'paused';
-                  }}
-                  onMouseLeave={(e) => {
-                    const track = e.currentTarget.closest('.sponsor-scroll') as HTMLElement;
-                    if (track) track.style.animationPlayState = 'running';
-                  }}
                 >
                   <div className={`relative ${
                     sponsor.name === 'Amstelhoekje' 

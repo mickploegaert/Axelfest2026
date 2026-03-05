@@ -111,6 +111,14 @@ video::-webkit-media-controls {
   -webkit-animation: sponsor-scroll 20s linear infinite;
 }
 
+/* Only pause on devices that truly support hover (not touch) */
+@media (hover: hover) {
+  .sponsor-scroll:hover {
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+  }
+}
+
 @keyframes scroll {
   0% {
     transform: translateX(0);
