@@ -5,26 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "../../i18n";
 
-const FlagNL = () => (
-  <svg viewBox="0 0 640 480" className="w-6 h-4 sm:w-7 sm:h-5 rounded-sm shadow-md">
-    <rect width="640" height="160" fill="#AE1C28" />
-    <rect y="160" width="640" height="160" fill="#FFF" />
-    <rect y="320" width="640" height="160" fill="#21468B" />
-  </svg>
-);
-
-const FlagEN = () => (
-  <svg viewBox="0 0 640 480" className="w-6 h-4 sm:w-7 sm:h-5 rounded-sm shadow-md">
-    <rect width="640" height="480" fill="#012169" />
-    <path d="M75 0l244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z" fill="#FFF" />
-    <path d="M424 281l216 159v40L369 281h55zm-184 20l6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z" fill="#C8102E" />
-    <path d="M241 0v480h160V0H241zM0 160v160h640V160H0z" fill="#FFF" />
-    <path d="M273 0v480h96V0h-96zM0 192v96h640v-96H0z" fill="#C8102E" />
-  </svg>
-);
-
 const Hero = () => {
-  const { t, locale, setLocale } = useTranslation();
+  const { t } = useTranslation();
   const [videoError, setVideoError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasPlayed = useRef(false);
@@ -135,34 +117,6 @@ const Hero = () => {
       
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80" />
-
-      {/* Language Switcher - Top Left */}
-      <div className="absolute left-3 sm:left-4 md:left-6 top-20 sm:top-24 z-20 flex gap-2">
-        <button
-          onClick={() => setLocale('nl')}
-          className={`p-1.5 sm:p-2 rounded-full border transition-all duration-200 backdrop-blur-sm ${
-            locale === 'nl'
-              ? 'border-white/60 bg-white/20 scale-110'
-              : 'border-white/20 bg-black/20 hover:bg-white/10 hover:scale-105'
-          }`}
-          aria-label="Nederlands"
-          title="Nederlands"
-        >
-          <FlagNL />
-        </button>
-        <button
-          onClick={() => setLocale('en')}
-          className={`p-1.5 sm:p-2 rounded-full border transition-all duration-200 backdrop-blur-sm ${
-            locale === 'en'
-              ? 'border-white/60 bg-white/20 scale-110'
-              : 'border-white/20 bg-black/20 hover:bg-white/10 hover:scale-105'
-          }`}
-          aria-label="English"
-          title="English"
-        >
-          <FlagEN />
-        </button>
-      </div>
 
       {/* Social Icons - Rechts Midden in Hero */}
       <div className="hidden sm:flex absolute right-3 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-20 flex-col gap-4 sm:gap-6 bg-black/20 backdrop-blur-sm px-2 sm:px-3 py-4 sm:py-6 rounded-full border border-white/20">

@@ -67,17 +67,17 @@ video::-webkit-media-controls {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: -10%;
+  width: 130%;
   height: 100%;
   background: white;
-  transform: translateX(-100%);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(-110%) skewX(-15deg);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: -1;
 }
 
 .btn-fill:hover::before {
-  transform: translateX(0);
+  transform: translateX(0) skewX(-15deg);
 }
 
 .btn-fill:hover {

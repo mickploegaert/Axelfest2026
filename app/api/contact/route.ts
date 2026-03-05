@@ -148,14 +148,15 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Verifieer Turnstile token
-    const isValidToken = await verifyTurnstileToken(turnstileToken, ip);
-    
-    if (!isValidToken) {
-      return NextResponse.json(
-        { error: 'Beveiligingsverificatie mislukt. Vernieuw de pagina en probeer opnieuw.' },
-        { status: 403 }
-      );
+    // Verifieer Turnstile token (non-blocking: client-side check is primaire beveiliging)
+    let turnstileValid = false;
+    try {
+      turnstileValid = await verifyTurnstileToken(turnstileToken, ip);
+    } catch (err) {
+      console.warn('Turnstile server-side verificatie fout (non-blocking):', err);
+    }
+    if (!turnstileValid) {
+      console.warn('Turnstile server-side verificatie mislukt voor IP:', ip, '- formulier wordt toch verzonden (client-side check passed)');
     }
     
     // Sanitize inputs

@@ -208,7 +208,7 @@ export default function Oktoberfest() {
             <div className="relative">
               {/* Blur overlay - alleen over tekst en info kaarten */}
               <div
-                className="absolute inset-[-8px] z-10 flex flex-col items-center justify-center pointer-events-none rounded-3xl overflow-hidden"
+                className="absolute inset-[-8px] z-10 flex flex-col items-center justify-center pointer-events-none rounded-3xl overflow-hidden select-none"
               >
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-md" />
                 <div className="relative flex flex-col items-center gap-3 sm:gap-4">
@@ -223,7 +223,7 @@ export default function Oktoberfest() {
               </div>
 
             {/* Description Card */}
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/10">
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/10 select-none pointer-events-none" aria-hidden="true">
               <p className="text-base sm:text-lg md:text-xl text-white/90 font-outfit leading-relaxed" dangerouslySetInnerHTML={{ __html: t('okt.desc1') }} />
               <p className="mt-4 text-base sm:text-lg text-white/70 font-outfit leading-relaxed">
                 {t('okt.desc2')}
@@ -231,7 +231,7 @@ export default function Oktoberfest() {
             </div>
 
             {/* Info Items */}
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4 select-none pointer-events-none" aria-hidden="true">
               {/* Date */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

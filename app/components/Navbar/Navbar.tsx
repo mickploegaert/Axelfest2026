@@ -6,13 +6,31 @@ import Image from "next/image";
 import { HiMenu, HiX } from "react-icons/hi";
 import { useTranslation } from "../../i18n";
 
+const FlagNL = () => (
+  <svg viewBox="0 0 640 480" className="w-5 h-3.5 sm:w-6 sm:h-4">
+    <rect width="640" height="160" fill="#AE1C28" />
+    <rect y="160" width="640" height="160" fill="#FFF" />
+    <rect y="320" width="640" height="160" fill="#21468B" />
+  </svg>
+);
+
+const FlagEN = () => (
+  <svg viewBox="0 0 640 480" className="w-5 h-3.5 sm:w-6 sm:h-4">
+    <rect width="640" height="480" fill="#012169" />
+    <path d="M75 0l244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z" fill="#FFF" />
+    <path d="M424 281l216 159v40L369 281h55zm-184 20l6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z" fill="#C8102E" />
+    <path d="M241 0v480h160V0H241zM0 160v160h640V160H0z" fill="#FFF" />
+    <path d="M273 0v480h96V0h-96zM0 192v96h640v-96H0z" fill="#C8102E" />
+  </svg>
+);
+
 interface NavItem {
   label: string;
   href: string;
 }
 
 const Navbar = () => {
-  const { t } = useTranslation();
+  const { t, locale, setLocale } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems: NavItem[] = [
@@ -78,8 +96,36 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Tickets Button + Hamburger - Rechts */}
-            <div className="flex items-center justify-end flex-1 gap-3 sm:gap-4">
+            {/* Tickets Button + Language + Hamburger - Rechts */}
+            <div className="flex items-center justify-end flex-1 gap-2 sm:gap-3">
+              {/* Language Flags */}
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <button
+                  onClick={() => setLocale('nl')}
+                  className={`flex items-center justify-center w-8 h-6 sm:w-9 sm:h-7 rounded-full border transition-all duration-200 overflow-hidden ${
+                    locale === 'nl'
+                      ? 'border-white/70 bg-white/20 ring-1 ring-white/30'
+                      : 'border-white/20 bg-black/30 hover:bg-white/10'
+                  }`}
+                  aria-label="Nederlands"
+                  title="Nederlands"
+                >
+                  <FlagNL />
+                </button>
+                <button
+                  onClick={() => setLocale('en')}
+                  className={`flex items-center justify-center w-8 h-6 sm:w-9 sm:h-7 rounded-full border transition-all duration-200 overflow-hidden ${
+                    locale === 'en'
+                      ? 'border-white/70 bg-white/20 ring-1 ring-white/30'
+                      : 'border-white/20 bg-black/30 hover:bg-white/10'
+                  }`}
+                  aria-label="English"
+                  title="English"
+                >
+                  <FlagEN />
+                </button>
+              </div>
+
               <a
                 href="https://weeztix.shop/rb45ueqd"
                 target="_blank"
@@ -170,6 +216,41 @@ const Navbar = () => {
           >
             <span className="text-base sm:text-lg">{t('nav.dateFull')}</span>
             <span className="text-sm sm:text-base mt-1">{t('nav.location')}</span>
+          </div>
+
+          {/* Mobile Language Flags */}
+          <div 
+            className="mt-6 flex items-center gap-3"
+            style={{ 
+              animationDelay: `${(navItems.length + 2) * 80}ms`,
+              animation: isMenuOpen ? 'fadeInUp 0.4s ease forwards' : 'none',
+              opacity: isMenuOpen ? 1 : 0
+            }}
+          >
+            <button
+              onClick={() => setLocale('nl')}
+              className={`flex items-center justify-center w-10 h-7 rounded-full border transition-all duration-200 overflow-hidden ${
+                locale === 'nl'
+                  ? 'border-white/70 bg-white/20 ring-1 ring-white/30 scale-110'
+                  : 'border-white/20 bg-black/30 hover:bg-white/10'
+              }`}
+              aria-label="Nederlands"
+              title="Nederlands"
+            >
+              <FlagNL />
+            </button>
+            <button
+              onClick={() => setLocale('en')}
+              className={`flex items-center justify-center w-10 h-7 rounded-full border transition-all duration-200 overflow-hidden ${
+                locale === 'en'
+                  ? 'border-white/70 bg-white/20 ring-1 ring-white/30 scale-110'
+                  : 'border-white/20 bg-black/30 hover:bg-white/10'
+              }`}
+              aria-label="English"
+              title="English"
+            >
+              <FlagEN />
+            </button>
           </div>
         </div>
       </div>
