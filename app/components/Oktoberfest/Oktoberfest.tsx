@@ -199,26 +199,29 @@ export default function Oktoberfest() {
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative space-y-6 sm:space-y-8"
+            className="space-y-6 sm:space-y-8"
           >
-            {/* Blur overlay op tekst - coming soon */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="absolute inset-[-8px] z-10 flex flex-col items-center justify-center pointer-events-none rounded-3xl overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-black/50 backdrop-blur-md" />
-              <div className="relative flex flex-col items-center gap-3 sm:gap-4">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-white/30 flex items-center justify-center">
-                  <HiClock className="w-6 h-6 sm:w-7 sm:h-7 text-white/80" />
+            {/* Blurred info section */}
+            <div className="relative">
+              {/* Blur overlay - alleen over tekst en info kaarten */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="absolute inset-[-8px] z-10 flex flex-col items-center justify-center pointer-events-none rounded-3xl overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-md" />
+                <div className="relative flex flex-col items-center gap-3 sm:gap-4">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-white/30 flex items-center justify-center">
+                    <HiClock className="w-6 h-6 sm:w-7 sm:h-7 text-white/80" />
+                  </div>
+                  <h3 className="text-white font-phosphate text-3xl sm:text-4xl md:text-5xl tracking-wider uppercase drop-shadow-lg">
+                    COMING SOON
+                  </h3>
+                  <p className="text-white/60 font-outfit text-sm sm:text-base tracking-wide">Details worden binnenkort onthuld</p>
                 </div>
-                <h3 className="text-white font-phosphate text-3xl sm:text-4xl md:text-5xl tracking-wider uppercase drop-shadow-lg">
-                  COMING SOON
-                </h3>
-                <p className="text-white/60 font-outfit text-sm sm:text-base tracking-wide">Details worden binnenkort onthuld</p>
-              </div>
-            </motion.div>
+              </motion.div>
+
             {/* Description Card */}
             <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/10">
               <p className="text-base sm:text-lg md:text-xl text-white/90 font-outfit leading-relaxed">
@@ -297,8 +300,9 @@ export default function Oktoberfest() {
                 </div>
               </motion.div>
             </div>
+            </div>{/* end blurred section */}
 
-            {/* CTA Button */}
+            {/* CTA Button - buiten de blur */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}

@@ -51,7 +51,7 @@ const securityHeaders = [
       // Frames: Cloudflare Turnstile + Google Maps
       "frame-src https://challenges.cloudflare.com https://www.google.com https://maps.google.com",
       // Verbindingen: eigen domein + Cloudflare
-      "connect-src 'self' https://challenges.cloudflare.com",
+      "connect-src 'self' https://challenges.cloudflare.com https://*.cloudflare.com",
       // Formulier acties
       "form-action 'self'",
       // Base URI

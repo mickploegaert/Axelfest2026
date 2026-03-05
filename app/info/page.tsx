@@ -1,14 +1,13 @@
 import { Info, Footer } from "../components";
 
 export const metadata = {
-  title: "Info - Axelfest",
-  description: "Alle praktische informatie over Axelfest 2026",
+  title: "Info - Axelfest 2026",
+  description: "Alle praktische informatie over Axelfest 2026: locatie, openingstijden, parkeren, huisregels en veelgestelde vragen.",
 };
 
 export default function InfoPage() {
   return (
     <main>
-      <div className="pt-20 sm:pt-24 md:pt-28" />
       <Info />
       <Footer />
     </main>

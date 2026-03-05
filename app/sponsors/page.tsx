@@ -2,8 +2,8 @@ import { Footer } from "../components";
 import SponsorsPage from "./SponsorsPage";
 
 export const metadata = {
-  title: "Sponsors - Axelfest",
-  description: "Onze geweldige sponsors die Axelfest 2026 mogelijk maken",
+  title: "Sponsors - Axelfest 2026",
+  description: "Bekijk de sponsors die Axelfest 2026 mogelijk maken. Word ook sponsor van het festival op het Hofplein in Axel.",
 };
 
 export default function Sponsors() {

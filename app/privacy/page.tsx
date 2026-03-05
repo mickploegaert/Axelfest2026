@@ -3,7 +3,7 @@ import PrivacyContent from './PrivacyContent';
 import { Footer } from '../components';
 
 export const metadata: Metadata = {
-  title: 'Privacyverklaring - Axelfest',
+  title: 'Privacyverklaring - Axelfest 2026',
   description: 'Privacyverklaring van Axelfest 2026. Lees hoe wij omgaan met je persoonlijke gegevens.',
 };
 

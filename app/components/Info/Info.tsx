@@ -282,7 +282,7 @@ export default function Info() {
   return (
     <section 
       ref={containerRef}
-      className="relative py-12 sm:py-16 md:py-24 lg:py-32"
+      className="relative pt-28 sm:pt-32 md:pt-36 lg:pt-40 pb-12 sm:pb-16 md:pb-24 lg:pb-32"
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
