@@ -66,7 +66,7 @@ export default function Location() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-8 sm:mt-10 md:mt-12 text-center"
         >
-          <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 lg:p-12 inline-block">
+          <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 lg:p-12 inline-block max-w-full">
             <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-4">
               <svg className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>

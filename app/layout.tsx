@@ -103,7 +103,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl">
+    <html lang="en">
       <head>
         {/* Force no-cache op iOS Safari */}
         <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />

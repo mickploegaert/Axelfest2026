@@ -152,8 +152,8 @@ export default function Oktoberfest() {
             <div className="absolute -inset-4 bg-white/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
             {/* Poster Container - blurred with Coming Soon overlay */}
-            <div className="relative w-full max-w-md">
-              <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl shadow-black/50 bg-black/20 backdrop-blur-sm">
+            <div className="relative w-full max-w-md select-none" onContextMenu={(e) => e.preventDefault()} draggable={false}>
+              <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl shadow-black/50 bg-black/20 backdrop-blur-sm pointer-events-none">
                 {/* Poster Image - blurred */}
                 <div className="relative w-full" style={{ paddingBottom: '141.4%' }}>
                   <Image
@@ -161,6 +161,7 @@ export default function Oktoberfest() {
                     alt="Oktoberfest Poster"
                     fill
                     className="object-contain blur-lg scale-105"
+                    draggable={false}
                   />
                 </div>
 
