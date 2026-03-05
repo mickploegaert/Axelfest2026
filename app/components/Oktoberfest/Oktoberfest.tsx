@@ -148,17 +148,35 @@ export default function Oktoberfest() {
             {/* Subtle Glow Effect */}
             <div className="absolute -inset-4 bg-white/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
-            {/* Poster Container - full visibility */}
+            {/* Poster Container - blurred with Coming Soon overlay */}
             <div className="relative w-full max-w-md">
               <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl shadow-black/50 bg-black/20 backdrop-blur-sm">
-                {/* Poster Image - using object-contain to show full poster */}
+                {/* Poster Image - blurred */}
                 <div className="relative w-full" style={{ paddingBottom: '141.4%' }}>
                   <Image
                     src="/Posters/oktoberfest.png"
                     alt="Oktoberfest Poster"
                     fill
-                    className="object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+                    className="object-contain blur-lg scale-105"
                   />
+                </div>
+
+                {/* Coming Soon Overlay */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="text-center"
+                  >
+                    <div className="inline-block px-6 py-2 mb-4 border border-white/30 rounded-full">
+                      <span className="text-white/80 font-outfit text-sm tracking-[0.3em] uppercase">Stay Tuned</span>
+                    </div>
+                    <h3 className="text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight font-phosphate mb-3">
+                      COMING SOON
+                    </h3>
+                    <p className="text-white/60 font-outfit text-sm sm:text-base">Poster wordt binnenkort onthuld</p>
+                  </motion.div>
                 </div>
               </div>
 
@@ -181,8 +199,26 @@ export default function Oktoberfest() {
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-6 sm:space-y-8"
+            className="relative space-y-6 sm:space-y-8"
           >
+            {/* Blur overlay op tekst - coming soon */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="absolute inset-[-8px] z-10 flex flex-col items-center justify-center pointer-events-none rounded-3xl overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-black/50 backdrop-blur-md" />
+              <div className="relative flex flex-col items-center gap-3 sm:gap-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-white/30 flex items-center justify-center">
+                  <HiClock className="w-6 h-6 sm:w-7 sm:h-7 text-white/80" />
+                </div>
+                <h3 className="text-white font-phosphate text-3xl sm:text-4xl md:text-5xl tracking-wider uppercase drop-shadow-lg">
+                  COMING SOON
+                </h3>
+                <p className="text-white/60 font-outfit text-sm sm:text-base tracking-wide">Details worden binnenkort onthuld</p>
+              </div>
+            </motion.div>
             {/* Description Card */}
             <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/10">
               <p className="text-base sm:text-lg md:text-xl text-white/90 font-outfit leading-relaxed">
@@ -273,7 +309,7 @@ export default function Oktoberfest() {
                 href="https://weeztix.shop/rb45ueqd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 bg-transparent border-2 border-white/50 hover:border-white hover:bg-white hover:text-black text-white font-outfit font-semibold text-lg px-8 py-4 rounded-full transition-all duration-300 hover:scale-105"
+                className="btn-fill group inline-flex items-center gap-2 sm:gap-3 bg-transparent border-2 border-white/50 text-white font-outfit font-semibold text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-full transition-all duration-300"
               >
                 <span>Koop Tickets</span>
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -26,13 +26,13 @@ const photos = [
   { src: '/Slideshow/noa.jpg' },
 ];
 
-// Ken Burns animation variants - subtiel voor betere zichtbaarheid
+// Ken Burns animation variants - heel subtiel zodat foto's niet te ver inzoomen
 const kenBurnsVariants = [
-  { scale: 1.02, x: 0, y: 0, endX: 8, endY: 5 },
-  { scale: 1.03, x: -5, y: -3, endX: 5, endY: 3 },
-  { scale: 1.02, x: 5, y: -2, endX: -5, endY: 2 },
-  { scale: 1.03, x: -3, y: 4, endX: 3, endY: -4 },
-  { scale: 1.02, x: 4, y: 3, endX: -4, endY: -3 },
+  { scale: 1.005, x: 0, y: 0, endX: 3, endY: 2 },
+  { scale: 1.008, x: -2, y: -1, endX: 2, endY: 1 },
+  { scale: 1.005, x: 2, y: -1, endX: -2, endY: 1 },
+  { scale: 1.008, x: -1, y: 2, endX: 1, endY: -2 },
+  { scale: 1.005, x: 2, y: 1, endX: -2, endY: -1 },
 ];
 
 export default function Gallery() {
@@ -117,7 +117,7 @@ export default function Gallery() {
       {/* Slideshow container met waves er overheen */}
       <div className="relative">
         {/* Fullscreen Slideshow - grotere sectie voor betere foto zichtbaarheid */}
-        <div className="relative h-[70dvh] sm:h-[80dvh] md:h-[85dvh] lg:h-[90dvh] overflow-hidden">
+        <div className="relative h-[60dvh] sm:h-[70dvh] md:h-[80dvh] lg:h-[85dvh] overflow-hidden">
           {/* Photos with Ken Burns Effect - crossfade */}
           <AnimatePresence mode="sync" initial={false}>
             <motion.div
@@ -137,8 +137,8 @@ export default function Gallery() {
                   src={photos[currentIndex].src}
                   alt={`Festival foto ${currentIndex + 1}`}
                   fill
-                  className="object-cover object-center"
-                  style={{ objectPosition: '50% 35%' }}
+                  className="object-cover"
+                  style={{ objectPosition: '50% 40%' }}
                   priority={currentIndex === 0}
                   sizes="100vw"
                 />

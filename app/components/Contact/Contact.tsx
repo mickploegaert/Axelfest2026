@@ -28,7 +28,8 @@ export default function Contact() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(null);
+  const [turnstileLoaded, setTurnstileLoaded] = useState(false);
+  const turnstileWidgetIdRef = useRef<string | null>(null);
   const turnstileRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -41,8 +42,10 @@ export default function Contact() {
 
   // Initialize Turnstile widget
   useEffect(() => {
+    let checkInterval: ReturnType<typeof setInterval> | null = null;
+
     const initTurnstile = () => {
-      if (window.turnstile && turnstileRef.current && !turnstileWidgetId) {
+      if (window.turnstile && turnstileRef.current && !turnstileWidgetIdRef.current) {
         const widgetId = window.turnstile.render(turnstileRef.current, {
           sitekey: '0x4AAAAAACYA3Hrl3kkAo2SM',
           callback: (token: string) => {
@@ -54,10 +57,11 @@ export default function Contact() {
           'error-callback': () => {
             setTurnstileToken(null);
           },
-          theme: 'light',
+          theme: 'dark',
           size: 'normal',
         });
-        setTurnstileWidgetId(widgetId);
+        turnstileWidgetIdRef.current = widgetId;
+        setTurnstileLoaded(true);
       }
     };
 
@@ -66,16 +70,28 @@ export default function Contact() {
       initTurnstile();
     } else {
       // Wait for Turnstile script to load
-      const checkInterval = setInterval(() => {
+      checkInterval = setInterval(() => {
         if (window.turnstile) {
-          clearInterval(checkInterval);
+          if (checkInterval) clearInterval(checkInterval);
           initTurnstile();
         }
       }, 100);
-
-      return () => clearInterval(checkInterval);
     }
-  }, [turnstileWidgetId]);
+
+    // Cleanup: remove widget on unmount only
+    return () => {
+      if (checkInterval) clearInterval(checkInterval);
+      if (turnstileWidgetIdRef.current && window.turnstile) {
+        try {
+          window.turnstile.remove(turnstileWidgetIdRef.current);
+          turnstileWidgetIdRef.current = null;
+        } catch {
+          // Widget may already be removed
+        }
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,16 +127,16 @@ export default function Contact() {
       setTurnstileToken(null);
       
       // Reset Turnstile widget
-      if (window.turnstile && turnstileWidgetId) {
-        window.turnstile.reset(turnstileWidgetId);
+      if (window.turnstile && turnstileWidgetIdRef.current) {
+        window.turnstile.reset(turnstileWidgetIdRef.current);
       }
     } catch (err) {
       console.error('Form submission error:', err);
       setError(err instanceof Error ? err.message : 'Er is een fout opgetreden. Probeer het later opnieuw.');
       
       // Reset Turnstile widget on error
-      if (window.turnstile && turnstileWidgetId) {
-        window.turnstile.reset(turnstileWidgetId);
+      if (window.turnstile && turnstileWidgetIdRef.current) {
+        window.turnstile.reset(turnstileWidgetIdRef.current);
       }
       setTurnstileToken(null);
     }
@@ -138,7 +154,7 @@ export default function Contact() {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-screen min-h-[100dvh] py-20 sm:py-32 md:py-48 lg:py-64"
+      className="relative min-h-dvh py-16 sm:py-24 md:py-32 lg:py-48"
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -160,7 +176,7 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
             className="text-white"
           >
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black uppercase tracking-tight font-phosphate mb-6 sm:mb-10">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight font-phosphate mb-4 sm:mb-6 md:mb-10">
               CONTACT
             </h1>
             <div className="w-24 sm:w-32 md:w-40 h-1 sm:h-2 bg-white mb-8 sm:mb-12" />
@@ -266,7 +282,7 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-4 sm:px-6 sm:py-5 md:px-8 md:py-6 lg:px-10 lg:py-8 bg-white/10 backdrop-blur-sm border-none rounded-lg sm:rounded-xl text-white placeholder-white/50 font-outfit text-base sm:text-lg md:text-xl lg:text-2xl focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
+                  className="w-full px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 lg:px-8 lg:py-6 bg-white/10 backdrop-blur-sm border-none rounded-lg sm:rounded-xl text-white placeholder-white/50 font-outfit text-sm sm:text-base md:text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
                   placeholder="Your Name"
                 />
 
@@ -278,7 +294,7 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-4 sm:px-6 sm:py-5 md:px-8 md:py-6 lg:px-10 lg:py-8 bg-white/10 backdrop-blur-sm border-none rounded-lg sm:rounded-xl text-white placeholder-white/50 font-outfit text-base sm:text-lg md:text-xl lg:text-2xl focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
+                  className="w-full px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 lg:px-8 lg:py-6 bg-white/10 backdrop-blur-sm border-none rounded-lg sm:rounded-xl text-white placeholder-white/50 font-outfit text-sm sm:text-base md:text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
                   placeholder="Your Email"
                 />
 
@@ -289,20 +305,31 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  rows={6}
-                  className="w-full px-4 py-4 sm:px-6 sm:py-5 md:px-8 md:py-6 lg:px-10 lg:py-8 bg-white/10 backdrop-blur-sm border-none rounded-lg sm:rounded-xl text-white placeholder-white/50 font-outfit text-base sm:text-lg md:text-xl lg:text-2xl focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200 resize-none"
+                  rows={5}
+                  className="w-full px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 lg:px-8 lg:py-6 bg-white/10 backdrop-blur-sm border-none rounded-lg sm:rounded-xl text-white placeholder-white/50 font-outfit text-sm sm:text-base md:text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200 resize-none"
                   placeholder="Your Masterpiece Starts Here"
                 />
 
                 {/* Cloudflare Turnstile Widget */}
-                <div className="flex flex-col items-start gap-3">
+                <div className="flex flex-col items-center sm:items-start gap-3">
                   <div 
                     ref={turnstileRef}
-                    className="cf-turnstile"
+                    className="cf-turnstile max-w-full overflow-hidden [&>iframe]:max-w-full"
                   />
-                  <p className="text-white/50 font-outfit text-xs sm:text-sm md:text-base">
-                    Beveiligd door Cloudflare Turnstile
-                  </p>
+                  {!turnstileToken && !turnstileLoaded && (
+                    <div className="flex items-center gap-2 text-white/50 font-outfit text-xs sm:text-sm">
+                      <div className="w-4 h-4 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
+                      Beveiligingsmodule laden...
+                    </div>
+                  )}
+                  {turnstileToken && (
+                    <p className="text-green-400/80 font-outfit text-xs sm:text-sm flex items-center gap-1.5">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Verificatie geslaagd
+                    </p>
+                  )}
                 </div>
 
                 {/* Error Display */}
@@ -321,7 +348,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-white/20 backdrop-blur-sm text-white font-outfit font-semibold py-4 px-6 sm:py-5 sm:px-8 md:py-6 md:px-10 lg:py-8 rounded-lg sm:rounded-xl hover:bg-white/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl tracking-wide"
+                  className="btn-fill w-full bg-white/20 backdrop-blur-sm text-white font-outfit font-semibold py-3 px-5 sm:py-4 sm:px-6 md:py-5 md:px-8 lg:py-6 rounded-lg sm:rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base md:text-lg lg:text-xl tracking-wide"
                 >
                   {isSubmitting ? (
                     <>

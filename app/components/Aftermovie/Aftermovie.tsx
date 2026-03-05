@@ -39,7 +39,7 @@ export default function Aftermovie() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="w-full max-w-5xl mx-auto"
         >
-          <div className="relative w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl" style={{ aspectRatio: '16/9' }}>
+          <div className="relative w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl bg-[#1a1a2e]" style={{ aspectRatio: '16/9' }}>
             <video
               className="w-full h-full object-cover"
               src="/Videos/2025aftermovie.mp4"
@@ -47,7 +47,6 @@ export default function Aftermovie() {
               playsInline
               preload="metadata"
               controlsList="nodownload"
-              poster="/BackgroundMain/Background.jpg"
             />
           </div>
         </motion.div>

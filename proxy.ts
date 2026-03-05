@@ -57,7 +57,7 @@ const SUSPICIOUS_PARAMS = [
   '..\\',
 ];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const userAgent = request.headers.get('user-agent')?.toLowerCase() || '';
   
@@ -107,7 +107,7 @@ export function middleware(request: NextRequest) {
   return response;
 }
 
-// Configureer welke paden de middleware moet checken
+// Configureer welke paden de proxy moet checken
 export const config = {
   matcher: [
     /*

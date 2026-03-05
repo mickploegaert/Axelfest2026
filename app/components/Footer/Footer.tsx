@@ -43,7 +43,7 @@ export default function Footer() {
               className="w-32 sm:w-40 md:w-48 h-auto"
             />
             <p className="text-white/80 font-outfit text-xs sm:text-sm leading-relaxed">
-              Het ultieme muziekfestival in het hart van Zeeuws-Vlaanderen. Een onvergetelijke ervaring vol live muziek, kunst en verbinding.
+              Muziekfestival in Axel, Zeeuws-Vlaanderen.
             </p>
             <div className="flex items-center gap-2 text-white">
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -59,7 +59,7 @@ export default function Footer() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h3 className="text-white font-outfit font-bold text-xl mb-6 flex items-center gap-2">
+            <h3 className="text-white font-outfit font-bold text-lg sm:text-xl mb-4 sm:mb-6 flex items-center gap-2">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
               </svg>
@@ -145,7 +145,7 @@ export default function Footer() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h3 className="text-white font-outfit font-bold text-xl mb-6 flex items-center gap-2">
+            <h3 className="text-white font-outfit font-bold text-lg sm:text-xl mb-4 sm:mb-6 flex items-center gap-2">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
               </svg>
@@ -171,7 +171,7 @@ export default function Footer() {
                   className="text-white/80 hover:text-white transition-colors hover:scale-110 transform duration-200"
                   aria-label="Facebook"
                 >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                   </svg>
                 </a>
@@ -182,7 +182,7 @@ export default function Footer() {
                   className="text-white/80 hover:text-white transition-colors hover:scale-110 transform duration-200"
                   aria-label="TikTok"
                 >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                   </svg>
                 </a>
@@ -191,7 +191,7 @@ export default function Footer() {
                 href="https://weeztix.shop/rb45ueqd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block font-outfit font-light text-white text-sm sm:text-base md:text-lg tracking-widest uppercase px-4 py-2 sm:px-6 sm:py-2.5 md:px-8 md:py-3 border border-white/50 hover:border-white hover:bg-white hover:text-black bg-transparent transition-all duration-300 text-center"
+                className="btn-fill inline-block font-outfit font-light text-white text-sm sm:text-base md:text-lg tracking-widest uppercase px-4 py-2 sm:px-6 sm:py-2.5 md:px-8 md:py-3 border border-white/50 bg-transparent transition-all duration-300 text-center"
               >
                 Tickets
               </a>
@@ -210,7 +210,7 @@ export default function Footer() {
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-4 sm:mb-6">
             <Link
               href="/privacy"
-              className="inline-flex items-center gap-2 text-white/80 hover:text-white font-outfit text-xs sm:text-sm transition-colors bg-white/5 px-4 py-2 rounded-lg hover:bg-white/10 border border-white/10"
+              className="btn-fill inline-flex items-center gap-2 text-white/80 font-outfit text-xs sm:text-sm transition-colors bg-white/5 px-4 py-2 rounded-lg border border-white/10"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -223,7 +223,7 @@ export default function Footer() {
                 sessionStorage.removeItem('axelfest-cookie-seen');
                 window.location.reload();
               }}
-              className="inline-flex items-center gap-2 text-white/80 hover:text-white font-outfit text-xs sm:text-sm transition-colors bg-white/5 px-4 py-2 rounded-lg hover:bg-white/10 border border-white/10"
+              className="btn-fill inline-flex items-center gap-2 text-white/80 font-outfit text-xs sm:text-sm transition-colors bg-white/5 px-4 py-2 rounded-lg border border-white/10"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />

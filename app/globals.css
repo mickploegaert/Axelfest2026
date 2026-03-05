@@ -56,7 +56,61 @@ video::-webkit-media-controls {
   font-family: var(--font-anta), sans-serif;
 }
 
-/* Sponsor carousel animation */
+/* Button fill-slide animation */
+.btn-fill {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.btn-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.btn-fill:hover::before {
+  transform: translateX(0);
+}
+
+.btn-fill:hover {
+  color: black !important;
+  border-color: white !important;
+}
+
+/* Dark fill variant for buttons on light backgrounds */
+.btn-fill-dark::before {
+  background: black;
+}
+
+.btn-fill-dark:hover {
+  color: white !important;
+  border-color: black !important;
+}
+
+/* Sponsor carousel animation - works on all devices including mobile */
+@keyframes sponsor-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.sponsor-scroll {
+  animation: sponsor-scroll 20s linear infinite;
+  will-change: transform;
+  -webkit-animation: sponsor-scroll 20s linear infinite;
+}
+
 @keyframes scroll {
   0% {
     transform: translateX(0);

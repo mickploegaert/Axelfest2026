@@ -165,16 +165,28 @@ export async function POST(request: NextRequest) {
       message: sanitizeInput(message),
     };
     
-    // TODO: Stuur email of sla op in database
-    // Voorbeeld met een email service:
-    // await sendEmail({
-    //   to: 'info@axelfest.nl',
-    //   subject: `Contactformulier: ${sanitizedData.name}`,
-    //   body: `Van: ${sanitizedData.name} (${sanitizedData.email})\n\nBericht:\n${sanitizedData.message}`
-    // });
-    
-    console.log('Contactformulier ontvangen:', {
-      ...sanitizedData,
+    // Stuur naar Formspree
+    const formspreeResponse = await fetch('https://formspree.io/f/mzdjpvgy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        name: sanitizedData.name,
+        email: sanitizedData.email,
+        message: sanitizedData.message,
+      }),
+    });
+
+    if (!formspreeResponse.ok) {
+      console.error('Formspree error:', await formspreeResponse.text());
+      throw new Error('E-mail verzenden mislukt');
+    }
+
+    console.log('Contactformulier verzonden via Formspree:', {
+      name: sanitizedData.name,
+      email: sanitizedData.email,
       ip,
       timestamp: new Date().toISOString(),
     });

@@ -153,7 +153,7 @@ export default function RootLayout({
         <ScrollManager />
         <LoadingScreen />
         <Navbar />
-        <main id="main-content">
+        <main id="main-content" className="overflow-x-hidden">
           {children}
         </main>
         <CookieConsent />

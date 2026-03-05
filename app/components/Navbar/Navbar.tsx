@@ -82,7 +82,7 @@ const Navbar = () => {
                 href="https://weeztix.shop/rb45ueqd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-outfit font-light text-white text-sm sm:text-base md:text-lg lg:text-xl tracking-widest uppercase px-3 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 border border-white/50 hover:border-white hover:bg-white hover:text-black bg-transparent transition-all duration-300"
+                className="btn-fill font-outfit font-light text-white text-sm sm:text-base md:text-lg lg:text-xl tracking-widest uppercase px-3 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 border border-white/50 bg-transparent transition-all duration-300"
               >
                 Tickets
               </a>
@@ -147,7 +147,7 @@ const Navbar = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setIsMenuOpen(false)}
-            className="mt-8 sm:mt-10 font-outfit font-light text-white text-xl sm:text-2xl tracking-widest uppercase px-8 py-4 border border-white/50 hover:border-white hover:bg-white hover:text-black bg-transparent transition-all duration-300"
+            className="btn-fill mt-8 sm:mt-10 font-outfit font-light text-white text-xl sm:text-2xl tracking-widest uppercase px-8 py-4 border border-white/50 bg-transparent transition-all duration-300"
             style={{ 
               animationDelay: `${navItems.length * 80}ms`,
               animation: isMenuOpen ? 'fadeInUp 0.4s ease forwards' : 'none',

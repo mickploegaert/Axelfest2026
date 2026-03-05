@@ -44,7 +44,7 @@ const sponsors = [
 ];
 
 // Duplicate sponsors for seamless infinite scroll
-const duplicatedSponsors = [...sponsors, ...sponsors, ...sponsors, ...sponsors, ...sponsors, ...sponsors, ...sponsors, ...sponsors];
+const duplicatedSponsors = [...sponsors, ...sponsors, ...sponsors, ...sponsors];
 
 export default function Sponsors() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -80,44 +80,44 @@ export default function Sponsors() {
       {/* Carousel Container */}
       <div className="relative z-10">
         {/* Scrolling Track */}
-        <div className="overflow-hidden py-4 sm:py-6 md:py-8 px-4 sm:px-8 md:px-16">
+        <div className="overflow-hidden py-4 sm:py-6 md:py-8">
           <motion.div
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex"
           >
-            {/* Logos */}
+            {/* Logos - uses CSS animation for reliable mobile scrolling */}
             <div 
-              className="flex items-center gap-6 sm:gap-8 md:gap-12 lg:gap-16 xl:gap-20 animate-scroll"
+              className="flex items-center gap-8 sm:gap-10 md:gap-14 lg:gap-16 xl:gap-20 sponsor-scroll"
+              style={{ width: 'max-content' }}
             >
               {duplicatedSponsors.map((sponsor, index) => (
                 <Link
-                  key={`first-${index}`}
+                  key={`sponsor-${index}`}
                   href={sponsor.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="shrink-0 transition-transform duration-300 hover:scale-110"
                   onMouseEnter={(e) => {
-                    const track = e.currentTarget.parentElement;
+                    const track = e.currentTarget.closest('.sponsor-scroll') as HTMLElement;
                     if (track) track.style.animationPlayState = 'paused';
                   }}
                   onMouseLeave={(e) => {
-                    const track = e.currentTarget.parentElement;
+                    const track = e.currentTarget.closest('.sponsor-scroll') as HTMLElement;
                     if (track) track.style.animationPlayState = 'running';
                   }}
                 >
                   <div className={`relative ${
                     sponsor.name === 'Amstelhoekje' 
-                      ? 'h-20 sm:h-24 md:h-32 lg:h-40 xl:h-48 w-32 sm:w-40 md:w-48 lg:w-64 xl:w-80' 
-                      : 'h-16 sm:h-20 md:h-24 lg:h-32 xl:h-40 w-28 sm:w-32 md:w-40 lg:w-52 xl:w-64'
+                      ? 'h-16 sm:h-20 md:h-28 lg:h-36 xl:h-44 w-28 sm:w-36 md:w-44 lg:w-56 xl:w-72' 
+                      : 'h-12 sm:h-16 md:h-20 lg:h-28 xl:h-36 w-24 sm:w-28 md:w-36 lg:w-48 xl:w-56'
                   }`}>
                     <Image
                       src={sponsor.logo}
                       alt={sponsor.name}
                       fill
                       loading="lazy"
-                      sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, (max-width: 1024px) 208px, 320px"
+                      sizes="(max-width: 640px) 100px, (max-width: 768px) 140px, (max-width: 1024px) 192px, 280px"
                       className="object-contain"
                     />
                   </div>

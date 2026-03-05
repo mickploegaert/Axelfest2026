@@ -50,7 +50,7 @@ const infoSections: InfoSectionData[] = [
     icon: HiTicket,
     title: 'Tickets',
     content: [
-      { type: 'text', content: 'Tickets zijn online te koop via onze ticketpartner. Zorg ervoor dat je tickets koopt via officiële kanalen om teleurstellingen te voorkomen.' },
+      { type: 'text', content: 'Tickets zijn online te koop via onze ticketpartner. Zorg ervoor dat je tickets koopt via het officiële kanaal om teleurstellingen te voorkomen.' },
     ],
   },
   {
@@ -80,11 +80,11 @@ const infoSections: InfoSectionData[] = [
   },
   {
     id: 'crowdsurfen',
-    icon: HiUsers,
+    icon: HiBan,
     title: 'Crowdsurfen',
     content: [
-      { type: 'text', content: 'Crowdsurfen is toegestaan op het festival, maar gebeurt volledig op eigen risico.' },
-      { type: 'warning', content: 'De organisatie is niet aansprakelijk voor eventuele blessures die hieruit voortkomen.' },
+      { type: 'warning', content: 'Crowdsurfen is niet toegestaan op het festival.' },
+      { type: 'text', content: 'Voor de veiligheid van alle bezoekers is crowdsurfen verboden. De organisatie kan je bij overtreding van het terrein verwijderen.' },
     ],
   },
   {
@@ -165,16 +165,17 @@ const infoSections: InfoSectionData[] = [
     content: [
       { type: 'text', content: 'Door het kopen van een ticket ga je automatisch akkoord met de volgende huisregels:' },
       { type: 'list', content: [
-        'De minimumleeftijd voor toegang is 16 jaar',
+        'Toegang is vanaf 14 jaar. Ben je jonger? Dan alleen onder begeleiding van een volwassene',
         'Drugs zijn ten strengste verboden',
         'Wapens, vuurwerk en gevaarlijke voorwerpen zijn niet toegestaan',
         'Agressief gedrag wordt niet getolereerd',
         'Eigen eten en drinken meenemen is niet toegestaan',
+        'Crowdsurfen is niet toegestaan',
         'Professionele camera\'s en video-apparatuur zijn alleen toegestaan met voorafgaande toestemming',
         'Volg te allen tijde de aanwijzingen van security en organisatie op',
-        'Crowdsurfen is toegestaan maar op eigen risico',
         'De organisatie behoudt zich het recht voor om personen de toegang te weigeren of te verwijderen',
-        'Het festival gaat door bij alle weersomstandigheden - tickets zijn niet terugbetaalbaar'
+        'Het festival gaat door bij alle omstandigheden, tenzij noodweer, veiligheid of andere genoodzaakte maatregelen anders vereisen',
+        'Tickets zijn alleen terugbetaalbaar bij aflasting van het festival'
       ]},
       { type: 'warning', content: 'Het niet naleven van de huisregels kan leiden tot verwijdering van het terrein zonder restitutie.' },
     ],
@@ -185,12 +186,12 @@ const faqSections = [
   {
     id: 'faq-1',
     question: 'Wat is de minimumleeftijd voor Axelfest?',
-    answer: 'De minimumleeftijd voor toegang tot Axelfest is 16 jaar. Bij twijfel wordt om legitimatie gevraagd.'
+    answer: 'Toegang is vanaf 14 jaar. Ben je jonger dan 14? Dan mag je alleen naar binnen onder begeleiding van een volwassene. Bij twijfel wordt om legitimatie gevraagd.'
   },
   {
     id: 'faq-2',
     question: 'Kan ik mijn ticket terugbetaald krijgen?',
-    answer: 'Nee, tickets zijn niet terugbetaalbaar. Het festival gaat door bij alle weersomstandigheden.'
+    answer: 'Tickets zijn alleen terugbetaalbaar bij aflasting van het festival. Het festival gaat door bij alle omstandigheden, tenzij noodweer, veiligheid of andere maatregelen anders vereisen.'
   },
   {
     id: 'faq-3',
@@ -281,7 +282,7 @@ export default function Info() {
   return (
     <section 
       ref={containerRef}
-      className="relative py-20 md:py-32"
+      className="relative py-12 sm:py-16 md:py-24 lg:py-32"
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -425,13 +426,13 @@ export default function Info() {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.6 + index * 0.05 }}
               >
-                <div className="bg-white/5 backdrop-blur-md border border-white/20 rounded-xl overflow-hidden hover:bg-white/10 hover:border-white/30 transition-all duration-300">
+                <div className="bg-white/5 backdrop-blur-md border border-white/20 rounded-lg sm:rounded-xl overflow-hidden hover:bg-white/10 hover:border-white/30 transition-all duration-300">
                   <button
                     onClick={() => toggleFaq(faq.id)}
-                    className="w-full px-6 py-5 flex items-center justify-between group"
+                    className="w-full px-4 py-4 sm:px-5 sm:py-4 md:px-6 md:py-5 flex items-center justify-between group"
                     aria-expanded={openFaq === faq.id}
                   >
-                    <h3 className="text-base md:text-lg font-semibold text-white font-outfit text-left pr-4">
+                    <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white font-outfit text-left pr-3 sm:pr-4">
                       {faq.question}
                     </h3>
                     <motion.div 
@@ -440,9 +441,9 @@ export default function Info() {
                       transition={{ duration: 0.3 }}
                     >
                       {openFaq === faq.id ? (
-                        <HiMinus className="w-6 h-6" />
+                        <HiMinus className="w-5 h-5 sm:w-6 sm:h-6" />
                       ) : (
-                        <HiPlus className="w-6 h-6" />
+                        <HiPlus className="w-5 h-5 sm:w-6 sm:h-6" />
                       )}
                     </motion.div>
                   </button>
@@ -456,8 +457,8 @@ export default function Info() {
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className="overflow-hidden"
                       >
-                        <div className="px-6 pb-6 pt-2 border-t border-white/10">
-                          <p className="text-white/90 font-outfit leading-relaxed">
+                        <div className="px-4 pb-4 pt-2 sm:px-5 sm:pb-5 md:px-6 md:pb-6 border-t border-white/10">
+                          <p className="text-white/90 font-outfit leading-relaxed text-sm sm:text-base">
                             {faq.answer}
                           </p>
                         </div>

@@ -159,7 +159,7 @@ const Hero = () => {
         <h1 className="font-phosphate text-white text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-wider leading-tight drop-shadow-2xl">
           AXELFEST
         </h1>
-        <h2 className="font-phosphate text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wider leading-tight mb-12 drop-shadow-2xl">
+        <h2 className="font-phosphate text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wider leading-tight mb-6 sm:mb-8 md:mb-12 drop-shadow-2xl">
           2026
         </h2>
 
@@ -169,13 +169,13 @@ const Hero = () => {
             href="https://weeztix.shop/rb45ueqd"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-outfit text-white text-lg sm:text-xl font-light tracking-wide border-b-2 border-white/60 pb-1 hover:border-white transition-colors duration-200"
+            className="btn-fill font-outfit text-white text-base sm:text-lg md:text-xl font-light tracking-wide border-b-2 border-white/60 pb-1 py-2 px-1 transition-colors duration-300"
           >
             Koop tickets
           </a>
           <Link
             href="/lineup"
-            className="font-outfit text-white text-lg sm:text-xl font-light tracking-wide border-b-2 border-white/60 pb-1 hover:border-white transition-colors duration-200"
+            className="btn-fill font-outfit text-white text-base sm:text-lg md:text-xl font-light tracking-wide border-b-2 border-white/60 pb-1 py-2 px-1 transition-colors duration-300"
           >
             Line-up
           </Link>
